@@ -1,8 +1,13 @@
 package main
 
 import (
+	"log"
+	"net/http"
+
+	"github.com/gorilla/mux"
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/postgres"
+	"github.com/rs/cors"
 )
 
 var db *gorm.DB
@@ -18,7 +23,7 @@ var err error
 // }
 
 func main() {
-	// router := mux.NewRouter()
+	router := mux.NewRouter()
 	// user_db := goDotEnvVariable("USER_DB")
 	// user_pw := goDotEnvVariable("USER_PW")
 	// backend_db := goDotEnvVariable("REACT_APP_BACKEND_DATABASE")
@@ -37,48 +42,37 @@ func main() {
 	db.AutoMigrate(&Quantity{})
 	db.AutoMigrate(&UnitMeasurement{})
 
-	for index := range recipes {
-		db.Create(&recipes[index])
-	}
+	// for index := range recipes {
+	// 	db.Create(&recipes[index])
+	// }
 
-	for index := range ingredients {
-		db.Create(&ingredients[index])
-	}
+	// for index := range ingredients {
+	// 	db.Create(&ingredients[index])
+	// }
 
-	for index := range steps {
-		db.Create(&steps[index])
-	}
+	// for index := range steps {
+	// 	db.Create(&steps[index])
+	// }
 
-	for index := range quantities {
-		db.Create(&quantities[index])
-	}
+	// for index := range quantities {
+	// 	db.Create(&quantities[index])
+	// }
 
-	for index := range units {
-		db.Create(&units[index])
-	}
+	// for index := range units {
+	// 	db.Create(&units[index])
+	// }
 
-	// router.HandleFunc("/cars", GetCars).Methods("GET")
+	router.HandleFunc("/recipes", getRecipes).Methods("GET")
+	router.HandleFunc("/recipes", createRecipe).Methods("POST")
+	router.HandleFunc("/recipes/{id}", getRecipeByID).Methods("GET")
 	// router.HandleFunc("/cars/{id}", GetCar).Methods("GET")
 	// router.HandleFunc("/drivers/{id}", GetDriver).Methods("GET")
 	// router.HandleFunc("/cars/{id}", DeleteCar).Methods("DELETE")
 
-	// handler := cors.Default().Handler(router)
+	handler := cors.Default().Handler(router)
 
-	// log.Fatal(http.ListenAndServe("localhost:8080", handler))
+	log.Fatal(http.ListenAndServe("localhost:8080", handler))
 }
-
-// func GetCars(w http.ResponseWriter, r *http.Request) {
-// 	var cars []Car
-// 	db.Find(&cars)
-// 	json.NewEncoder(w).Encode(&cars)
-// }
-
-// func GetCar(w http.ResponseWriter, r *http.Request) {
-// 	params := mux.Vars(r)
-// 	var car Car
-// 	db.First(&car, params["id"])
-// 	json.NewEncoder(w).Encode(&car)
-// }
 
 // func GetDriver(w http.ResponseWriter, r *http.Request) {
 // 	params := mux.Vars(r)

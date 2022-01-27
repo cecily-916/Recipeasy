@@ -18,10 +18,10 @@ var (
 		{Unit: "kg"},
 	}
 
-	recipes = []Recipe{
-		{Title: "Cookies"},
-		{Title: "Chicken Stew"},
-	}
+	// recipes = []Recipe{
+	// 	{Title: "Cookies"},
+	// 	{Title: "Chicken Stew"},
+	// }
 
 	ingredients = []Ingredient{
 		{Name: "sugar"},

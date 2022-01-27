@@ -1,39 +1,52 @@
 package main
 
-// import (
-// 	"net/http"
+import (
+	"encoding/json"
+	"net/http"
 
-// 	"github.com/gin-gonic/gin"
-// )
+	"github.com/gorilla/mux"
+)
 
-// //getRecipes responds with the list of all recipes as JSON
-// func getRecipes(c *gin.Context) {
-// 	c.IndentedJSON(http.StatusOK, recipes)
-// }
+var recipes []Recipe
 
-// //postRecipes adds a recipe from JSON received in request body
-// func postRecipes(c *gin.Context) {
-// 	var newRecipe Recipe
+func getRecipes(w http.ResponseWriter, r *http.Request) {
 
-// 	if err := c.BindJSON(&newRecipe); err != nil {
-// 		return
-// 	}
+	db.Find(&recipes)
+	json.NewEncoder(w).Encode(&recipes)
 
-// 	recipes = append(recipes, newRecipe)
-// 	c.IndentedJSON(http.StatusCreated, newRecipe)
-// }
+	if err != nil {
+		return
+	}
 
-// // getRecipeByID responds with the information about a specific recipe
-// // ID parameter sent by the client then returns the recipe that matches the ID
+}
 
-// func getRecipeByID(c *gin.Context) {
-// 	id := c.Param("id")
+//createRecipe adds a recipe from JSON received in request body
+func createRecipe(w http.ResponseWriter, r *http.Request) {
+	var newRecipe Recipe
+	_ = json.NewDecoder(r.Body).Decode(&newRecipe)
 
-// 	for _, a := range recipes {
-// 		if a.ID == id {
-// 			c.IndentedJSON(http.StatusOK, a)
-// 			return
-// 		}
-// 	}
-// 	c.IndentedJSON(http.StatusNotFound, gin.H{"message": "recipe not found"})
-// }
+	recipes = append(recipes, newRecipe)
+
+	db.Create(&newRecipe)
+
+	json.NewEncoder(w).Encode(&newRecipe)
+
+	if err != nil {
+		return
+	}
+}
+
+// getRecipeByID responds with the information about a specific recipe
+func getRecipeByID(w http.ResponseWriter, r *http.Request) {
+
+	var recipe Recipe
+
+	params := mux.Vars(r)
+
+	db.First(&recipe, params["id"])
+	json.NewEncoder(w).Encode(&recipe)
+
+	if err != nil {
+		return
+	}
+}
