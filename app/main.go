@@ -28,7 +28,7 @@ func main() {
 	// user_pw := goDotEnvVariable("USER_PW")
 	// backend_db := goDotEnvVariable("REACT_APP_BACKEND_DATABASE")
 
-	db, err = gorm.Open("postgres", "host=localhost port=5432 user=postgres dbname=recipeasy_development sslmode=disable password=postgres") // user_db, user_pw, backend_db)
+	db, err = gorm.Open("postgres", "host=localhost port=5432 user=postgres dbname=recipeasy_test sslmode=disable password=postgres") // user_db, user_pw, backend_db)
 
 	if err != nil {
 		panic("failed to connect database")
@@ -36,11 +36,17 @@ func main() {
 
 	defer db.Close()
 
-	db.AutoMigrate(&Recipe{})
-	db.AutoMigrate(&Ingredient{})
-	db.AutoMigrate(&Step{})
-	db.AutoMigrate(&Quantity{})
-	db.AutoMigrate(&UnitMeasurement{})
+	db.CreateTable(&Recipe{})
+	db.CreateTable(&Ingredient{})
+	db.CreateTable(&Quantity{})
+	db.CreateTable(&Step{})
+	db.CreateTable(&UnitMeasurement{})
+
+	// db.AutoMigrate(&Recipe{})
+	// db.AutoMigrate(&Ingredient{})
+	// db.AutoMigrate(&Step{})
+	// db.AutoMigrate(&Quantity{})
+	// db.AutoMigrate(&UnitMeasurement{})
 
 	// for index := range recipes {
 	// 	db.Create(&recipes[index])
