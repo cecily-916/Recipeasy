@@ -5,26 +5,26 @@ import "gorm.io/gorm"
 // Each recipe has many steps
 type Recipe struct {
 	gorm.Model
-
-	RecipeID int    `gorm: "primary_key"`
-	Title    string `json:"title"`
-	Steps    []Step `json:"steps"` //one-to-many relationship
+	Title string `json:"title" sql:"size:255;unique;index"`
+	Steps []Step `json:"steps"` //one-to-many relationship
 }
 
 // Quantities know which ingredient they are a part of but ingredients dont need to know the reverse
-type Ingredient struct {
-	gorm.Model
-	Name string `json:"name" gorm:"primary_key"`
-}
+// type Ingredient struct {
+// 	gorm.Model
+// 	Name string `json:"name" sql:"AUTO_INCREMENT" gorm:"primary_key"`
+// }
 
-// Each quantity has one ingredient and one unit of measurement
+// // Each quantity has one ingredient and one unit of measurement
 type Quantity struct {
 	gorm.Model
 
-	Ingredient      *Ingredient      //one-to-one relationship
-	UnitMeasurement *UnitMeasurement //one-to-one relationship
+	StepID          int
+	Step            Step
+	Ingredient      string //one-to-one relationship
+	UnitMeasurement string //one-to-one relationship
 	Amount          int
-	Step            *Step // one-to-one relationship
+	// Step            *Step // one-to-one relationship
 }
 
 // Each step has many quantities and belongs to only one recipe
@@ -33,12 +33,7 @@ type Step struct {
 
 	Details    string     `json:"details"`
 	Quantities []Quantity `json:"quantities"` // one-to-many relationship
-	Recipe     *Recipe    // one-to-one relationship
-}
-
-// Measurements are reused by many quantities
-type UnitMeasurement struct {
-	gorm.Model
-
-	Unit string `gorm:"primary_key`
+	Recipe     Recipe     // one-to-one relationship
+	RecipeID   int
+	Completed  bool `sql:"DEFAULT:false"`
 }

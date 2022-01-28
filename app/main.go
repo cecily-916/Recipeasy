@@ -36,37 +36,33 @@ func main() {
 
 	defer db.Close()
 
-	db.CreateTable(&Recipe{})
-	db.CreateTable(&Ingredient{})
-	db.CreateTable(&Quantity{})
-	db.CreateTable(&Step{})
-	db.CreateTable(&UnitMeasurement{})
+	db.AutoMigrate(&Recipe{})
+	db.AutoMigrate(&Step{})
+	db.AutoMigrate(&Quantity{})
 
-	// db.AutoMigrate(&Recipe{})
-	// db.AutoMigrate(&Ingredient{})
-	// db.AutoMigrate(&Step{})
-	// db.AutoMigrate(&Quantity{})
-	// db.AutoMigrate(&UnitMeasurement{})
+	sampleRecipe := Recipe{
+		Title: "Oatmeal",
+		Steps: []Step{
+			{
+				Details:   "This is a step",
+				Completed: true,
+				Quantities: []Quantity{
+					{Amount: 3, Ingredient: "sugar", UnitMeasurement: ""},
+					{Amount: 10, Ingredient: "salt", UnitMeasurement: ""},
+				},
+			},
+			{
+				Details:   "This is another step",
+				Completed: false,
+				Quantities: []Quantity{
+					{Amount: 25, Ingredient: "sugar", UnitMeasurement: ""},
+				},
+			},
+		},
+	}
 
-	// for index := range recipes {
-	// 	db.Create(&recipes[index])
-	// }
-
-	// for index := range ingredients {
-	// 	db.Create(&ingredients[index])
-	// }
-
-	// for index := range steps {
-	// 	db.Create(&steps[index])
-	// }
-
-	// for index := range quantities {
-	// 	db.Create(&quantities[index])
-	// }
-
-	// for index := range units {
-	// 	db.Create(&units[index])
-	// }
+	db.Create(&sampleRecipe)
+	db.Save(&sampleRecipe)
 
 	router.HandleFunc("/recipes", getRecipes).Methods("GET")
 	router.HandleFunc("/recipes", createRecipe).Methods("POST")
