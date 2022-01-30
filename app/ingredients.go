@@ -11,25 +11,32 @@ var ingredients []Ingredient
 var ingredient Ingredient
 
 // GET all ingredients from a step
-func getIngredientsByStep(w http.ResponseWriter, r *http.Request) {
+func handleIngredientsByStep(w http.ResponseWriter, r *http.Request) {
 	params := mux.Vars(r)
-	var step Step
 
 	db.First(&step, params["id"])
 	db.Model(&step).Related(&ingredients)
 	step.Ingredients = ingredients
-	json.NewEncoder(w).Encode(&ingredients)
 
+	if r.Method == "Get" {
+		json.NewEncoder(w).Encode(&ingredients)
+	} else if r.Method == "DELETE" {
+		db.Delete(&ingredients)
+		json.NewEncoder(w).Encode("All ingredients deleted.")
+	}
 }
 
-// // POST new step to a recipe
-// func createIngredient(w http.ResponseWriter, r *http.Request) {
-// }
+// POST new ingredient
+func createIngredient(w http.ResponseWriter, r *http.Request) {
+	var newIngredient Ingredient
 
-// // DELETE all ingredients from step
-// func deleteIngredients(w http.ResponseWriter, r *http.Request) {
+	_ = json.NewDecoder(r.Body).Decode(&newIngredient)
 
-// }
+	ingredients = append(ingredients, newIngredient)
+
+	db.Create(&newIngredient)
+	json.NewEncoder(w).Encode(&newIngredient)
+}
 
 // // GET single step by stepID
 func getIngredient(w http.ResponseWriter, r *http.Request) {

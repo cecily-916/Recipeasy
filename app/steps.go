@@ -11,7 +11,7 @@ var steps []Step
 var step Step
 var recipe Recipe
 
-// GET all steps from a recipe
+// Request handler for GET, POST, DELETE steps related to specific recipe
 func handleStepsByRecipe(w http.ResponseWriter, r *http.Request) {
 	params := mux.Vars(r)
 
@@ -24,21 +24,22 @@ func handleStepsByRecipe(w http.ResponseWriter, r *http.Request) {
 	} else if r.Method == "DELETE" {
 		db.Delete(&steps)
 		json.NewEncoder(w).Encode("All steps deleted")
-	} else if r.Method == "POST" {
-		var newStep Step
-
-		_ = json.NewDecoder(r.Body).Decode(&newStep)
-
-		steps = append(steps, newStep)
-
-		db.Create(&newStep)
-
-		json.NewEncoder(w).Encode(&newStep)
 	}
 }
 
-// // POST new step to a recipe
-// func createStep(w http.ResponseWriter, r *http.Request) {
+// POST new step
+func createStep(w http.ResponseWriter, r *http.Request) {
+
+	var newStep Step
+
+	_ = json.NewDecoder(r.Body).Decode(&newStep)
+
+	steps = append(steps, newStep)
+
+	db.Create(&newStep)
+
+	json.NewEncoder(w).Encode(&newStep)
+}
 
 // // GET single step by stepID
 func getStep(w http.ResponseWriter, r *http.Request) {
