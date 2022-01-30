@@ -8,8 +8,8 @@ type Recipe struct {
 	Title       string `json:"title" sql:"size:255;unique;index"`
 	Description string `json:"description"`
 	Rating      int    `json:"rating"`
-	PrepTime    string `json:"prep-time"`
-	CookTime    string `json:"cook-time"`
+	PrepTime    string `json:"prepTime"`
+	CookTime    string `json:"cookTime"`
 	Steps       []Step `json:"steps"` //one-to-many relationship
 }
 
@@ -23,8 +23,8 @@ type Recipe struct {
 type Ingredient struct {
 	gorm.Model
 
-	StepID int
-	// Step            Step
+	StepID          int
+	Step            Step
 	Ingredient      string `json:"ingredient"`       //one-to-one relationship
 	UnitMeasurement string `json:"unit-measurement"` //one-to-one relationship
 	Amount          int    `json:"amount"`
@@ -39,8 +39,8 @@ type Step struct {
 
 	Details     string       `json:"details"`
 	Ingredients []Ingredient `json:"ingredients"` // one-to-many relationship
-	// Recipe      Recipe       // one-to-one relationship
-	RecipeID  int
-	StepOrder int  `json:"step"` //inputted by user
-	Completed bool `json:"completed" sql:"DEFAULT:false"`
+	Recipe      Recipe       // one-to-one relationship
+	RecipeID    int
+	StepOrder   int  `json:"step"` //inputted by user
+	Completed   bool `json:"completed" sql:"DEFAULT:false"`
 }

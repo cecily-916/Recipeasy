@@ -11,7 +11,7 @@ var steps []Step
 var step Step
 var recipe Recipe
 
-// Request handler for GET, POST, DELETE steps related to specific recipe
+// Request handler for GET, DELETE steps related to specific recipe
 func handleStepsByRecipe(w http.ResponseWriter, r *http.Request) {
 	params := mux.Vars(r)
 

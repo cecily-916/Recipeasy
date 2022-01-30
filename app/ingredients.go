@@ -38,7 +38,7 @@ func createIngredient(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(&newIngredient)
 }
 
-// // GET single step by stepID
+// // GET ingredient
 func getIngredient(w http.ResponseWriter, r *http.Request) {
 	params := mux.Vars(r)
 
@@ -52,7 +52,7 @@ func getIngredient(w http.ResponseWriter, r *http.Request) {
 
 }
 
-// // DELETE single step by stepID
+// DELETE single ingredient
 func deleteIngredient(w http.ResponseWriter, r *http.Request) {
 	params := mux.Vars(r)
 
@@ -64,7 +64,7 @@ func deleteIngredient(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(&ingredients)
 }
 
-// // PATCH edits the step
+// // PATCH edits the ingredient
 // func editIngredient(w http.ResponseWriter, r *http.Request) {
 
 // }

@@ -40,33 +40,33 @@ func main() {
 	db.AutoMigrate(&Step{})
 	db.AutoMigrate(&Ingredient{})
 
-	// sampleRecipe := Recipe{
-	// 	Title:       "Oatmeal",
-	// 	Description: "This is a delicious breakfast",
-	// 	Rating:      1,
-	// 	PrepTime:    "10 mins",
-	// 	CookTime:    "15 mins",
-	// 	Steps: []Step{
-	// 		{
-	// 			Details:   "This is a step!",
-	// 			Completed: true,
-	// 			Ingredients: []Ingredient{
-	// 				{Amount: 3, Ingredient: "sugar", UnitMeasurement: "cup", QuantOrder: 1},
-	// 				{Amount: 10, Ingredient: "salt", UnitMeasurement: "teaspoon", QuantOrder: 2},
-	// 			},
-	// 		},
-	// 		{
-	// 			Details:   "This is another step",
-	// 			Completed: false,
-	// 			Ingredients: []Ingredient{
-	// 				{Amount: 25, Ingredient: "sugar", UnitMeasurement: "pound", QuantOrder: 1},
-	// 			},
-	// 		},
-	// 	},
-	// }
+	sampleRecipe := Recipe{
+		Title:       "Oatmeal",
+		Description: "This is a delicious breakfast",
+		Rating:      1,
+		PrepTime:    "10 mins",
+		CookTime:    "15 mins",
+		Steps: []Step{
+			{
+				Details:   "This is a step!",
+				Completed: true,
+				Ingredients: []Ingredient{
+					{Amount: 3, Ingredient: "sugar", UnitMeasurement: "cup", QuantOrder: 1},
+					{Amount: 10, Ingredient: "salt", UnitMeasurement: "teaspoon", QuantOrder: 2},
+				},
+			},
+			{
+				Details:   "This is another step",
+				Completed: false,
+				Ingredients: []Ingredient{
+					{Amount: 25, Ingredient: "sugar", UnitMeasurement: "pound", QuantOrder: 1},
+				},
+			},
+		},
+	}
 
-	// db.Create(&sampleRecipe)
-	// db.Save(&sampleRecipe)
+	db.Create(&sampleRecipe)
+	db.Save(&sampleRecipe)
 
 	router.HandleFunc("/recipes", getRecipes).Methods("GET")
 	router.HandleFunc("/recipes", createRecipe).Methods("POST")
