@@ -38,38 +38,51 @@ func main() {
 
 	db.AutoMigrate(&Recipe{})
 	db.AutoMigrate(&Step{})
-	db.AutoMigrate(&Quantity{})
+	db.AutoMigrate(&Ingredient{})
 
-	sampleRecipe := Recipe{
-		Title: "Oatmeal",
-		Steps: []Step{
-			{
-				Details:   "This is a step",
-				Completed: true,
-				Quantities: []Quantity{
-					{Amount: 3, Ingredient: "sugar", UnitMeasurement: ""},
-					{Amount: 10, Ingredient: "salt", UnitMeasurement: ""},
-				},
-			},
-			{
-				Details:   "This is another step",
-				Completed: false,
-				Quantities: []Quantity{
-					{Amount: 25, Ingredient: "sugar", UnitMeasurement: ""},
-				},
-			},
-		},
-	}
+	// sampleRecipe := Recipe{
+	// 	Title:       "Oatmeal",
+	// 	Description: "This is a delicious breakfast",
+	// 	Rating:      1,
+	// 	PrepTime:    "10 mins",
+	// 	CookTime:    "15 mins",
+	// 	Steps: []Step{
+	// 		{
+	// 			Details:   "This is a step!",
+	// 			Completed: true,
+	// 			Ingredients: []Ingredient{
+	// 				{Amount: 3, Ingredient: "sugar", UnitMeasurement: "cup", QuantOrder: 1},
+	// 				{Amount: 10, Ingredient: "salt", UnitMeasurement: "teaspoon", QuantOrder: 2},
+	// 			},
+	// 		},
+	// 		{
+	// 			Details:   "This is another step",
+	// 			Completed: false,
+	// 			Ingredients: []Ingredient{
+	// 				{Amount: 25, Ingredient: "sugar", UnitMeasurement: "pound", QuantOrder: 1},
+	// 			},
+	// 		},
+	// 	},
+	// }
 
-	db.Create(&sampleRecipe)
-	db.Save(&sampleRecipe)
+	// db.Create(&sampleRecipe)
+	// db.Save(&sampleRecipe)
 
 	router.HandleFunc("/recipes", getRecipes).Methods("GET")
 	router.HandleFunc("/recipes", createRecipe).Methods("POST")
 	router.HandleFunc("/recipes/{id}", getRecipeByID).Methods("GET")
-	// router.HandleFunc("/cars/{id}", GetCar).Methods("GET")
-	// router.HandleFunc("/drivers/{id}", GetDriver).Methods("GET")
-	// router.HandleFunc("/cars/{id}", DeleteCar).Methods("DELETE")
+	router.HandleFunc("/recipes/{id}/steps", handleStepsByRecipe).Methods("GET", "DELETE", "POST")
+	// router.HandleFunc("/recipes/{id}/steps", createStep).Methods("POST")
+	// router.HandleFunc("/recipes/{id}/steps", deleteSteps).Methods("DELETE")
+	router.HandleFunc("/recipes/{id}/steps/{stepID}", getStep).Methods("GET")
+	// router.HandleFunc("/recipes/{id}/steps/{stepID}", editStep).Methods("PATCH")
+	router.HandleFunc("/recipes/{id}/steps/{stepID}", deleteStep).Methods("DELETE")
+	router.HandleFunc("/recipes/{id}/steps/{stepID}/ingredients", getIngredientsByStep).Methods("GET")
+	// router.HandleFunc("/recipes/{id}/steps/{stepID}/ingredients", createIngredient).Methods("POST")
+	// router.HandleFunc("/recipes/{id}/steps/{stepID}/ingredients", deleteIngredients).Methods("DELETE")
+	router.HandleFunc("/recipes/{id}/steps/{stepID}/ingredients/{ingredientID}", getIngredient).Methods("GET")
+	router.HandleFunc("/recipes/{id}/steps/{stepID}/ingredients/{ingredientID}", deleteIngredient).Methods("DELETE")
+	// router.HandleFunc("/recipes/{id}/steps/{stepID}/ingredients/{ingredientID}", editIngredient).Methods("PATCH")
 
 	handler := cors.Default().Handler(router)
 

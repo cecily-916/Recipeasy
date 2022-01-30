@@ -39,12 +39,11 @@ func createRecipe(w http.ResponseWriter, r *http.Request) {
 // getRecipeByID responds with the information about a specific recipe
 func getRecipeByID(w http.ResponseWriter, r *http.Request) {
 
-	var recipe Recipe
-
 	params := mux.Vars(r)
 
-	db.First(&recipe, params["id"])
-	json.NewEncoder(w).Encode(&recipe)
+	db.First(&recipes, params["id"])
+
+	json.NewEncoder(w).Encode(&recipes)
 
 	if err != nil {
 		return
