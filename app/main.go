@@ -101,14 +101,12 @@ func main() {
 	// db.Create(&sampleRecipeTwo)
 	// db.Save(&sampleRecipeTwo)
 
-	// router.HandleFunc("/recipes", getRecipes).Methods("GET")
+	router.HandleFunc("/recipes", getRecipes).Methods("GET")
 	// router.HandleFunc("/recipes", createRecipe).Methods("POST")
 	router.HandleFunc("/recipes/{id}", getFullRecipe).Methods("GET")
-
-	// router.HandleFunc("/recipes/{id}", getRecipeByID).Methods("GET")
 	router.HandleFunc("/recipes/{id}/steps", handleStepsByRecipe).Methods("GET", "DELETE")
 	router.HandleFunc("/recipes/{id}/steps", createStep).Methods("POST")
-	router.HandleFunc("/recipes/{id}/steps/{stepID}", getStep).Methods("GET")
+	// router.HandleFunc("/recipes/{id}/steps/{stepID}", getStep).Methods("GET")
 	// router.HandleFunc("/recipes/{id}/steps/{stepID}", editStep).Methods("PATCH")
 	router.HandleFunc("/recipes/{id}/steps/{stepID}", deleteStep).Methods("DELETE")
 	router.HandleFunc("/recipes/{id}/steps/{stepID}/ingredients", handleIngredientsByStep).Methods("GET", "DELETE")

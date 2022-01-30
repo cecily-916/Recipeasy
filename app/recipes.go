@@ -1,17 +1,21 @@
 package main
 
-// var recipes []Recipe
+import (
+	"encoding/json"
+	"net/http"
+)
 
-// func getRecipes(w http.ResponseWriter, r *http.Request) {
+// GET request responds with high level details of all recipes
+func getRecipes(w http.ResponseWriter, r *http.Request) {
+	var recipes []Recipe
 
-// 	db.Find(&recipes)
-// 	json.NewEncoder(w).Encode(&recipes)
+	db.Find(&recipes)
+	json.NewEncoder(w).Encode(&recipes)
 
-// 	if err != nil {
-// 		return
-// 	}
-
-// }
+	if err != nil {
+		return
+	}
+}
 
 // //createRecipe adds a recipe from JSON received in request body
 // func createRecipe(w http.ResponseWriter, r *http.Request) {
@@ -23,20 +27,6 @@ package main
 // 	db.Create(&newRecipe)
 
 // 	json.NewEncoder(w).Encode(&newRecipe)
-
-// 	if err != nil {
-// 		return
-// 	}
-// }
-
-// getRecipeByID responds with the information about a specific recipe
-// func getRecipeByID(w http.ResponseWriter, r *http.Request) {
-
-// 	params := mux.Vars(r)
-
-// 	db.First(&recipes, params["id"])
-
-// 	json.NewEncoder(w).Encode(&recipes)
 
 // 	if err != nil {
 // 		return

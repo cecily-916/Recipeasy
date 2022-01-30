@@ -7,14 +7,13 @@ import (
 	"github.com/gorilla/mux"
 )
 
-var ingredients []Ingredient
-var ingredient Ingredient
-var fullRecipe []Recipe
-
 // GET all ingredients from a step
 func handleIngredientsByStep(w http.ResponseWriter, r *http.Request) {
-	params := mux.Vars(r)
 
+	var ingredients []Ingredient
+
+	params := mux.Vars(r)
+	var step Step
 	db.First(&step, params["stepID"])
 	db.Model(&step).Related(&ingredients)
 	step.Ingredients = ingredients
@@ -27,31 +26,10 @@ func handleIngredientsByStep(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func getFullRecipe(w http.ResponseWriter, r *http.Request) {
-	params := mux.Vars(r)
-	var recipe Recipe
-	var steps []Step
-
-	db.First(&recipe, params["id"])
-	db.Model(&recipe).Related(&steps)
-	recipe.Steps = steps
-
-	var stepsWithIngredients []Step
-
-	for _, recipeStep := range recipe.Steps {
-		db.Model(&recipeStep).Related(&ingredients)
-		recipeStep.Ingredients = ingredients
-		stepsWithIngredients = append(stepsWithIngredients, recipeStep)
-	}
-
-	recipe.Steps = stepsWithIngredients
-
-	json.NewEncoder(w).Encode(&recipe)
-
-}
-
 // POST new ingredient
 func createIngredient(w http.ResponseWriter, r *http.Request) {
+	var ingredients []Ingredient
+
 	var newIngredient Ingredient
 
 	_ = json.NewDecoder(r.Body).Decode(&newIngredient)
@@ -65,6 +43,7 @@ func createIngredient(w http.ResponseWriter, r *http.Request) {
 // // GET ingredient
 func getIngredient(w http.ResponseWriter, r *http.Request) {
 	params := mux.Vars(r)
+	var ingredients []Ingredient
 
 	db.First(&ingredients, params["ingredientID"])
 
@@ -79,6 +58,8 @@ func getIngredient(w http.ResponseWriter, r *http.Request) {
 // DELETE single ingredient
 func deleteIngredient(w http.ResponseWriter, r *http.Request) {
 	params := mux.Vars(r)
+	var ingredient Ingredient
+	var ingredients []Ingredient
 
 	db.First(&ingredient, params["ingredientID"])
 	db.Delete(&ingredient)

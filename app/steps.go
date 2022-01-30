@@ -7,13 +7,11 @@ import (
 	"github.com/gorilla/mux"
 )
 
-var steps []Step
-var step Step
-var recipe Recipe
-
 // Request handler for GET, DELETE steps related to specific recipe
 func handleStepsByRecipe(w http.ResponseWriter, r *http.Request) {
 	params := mux.Vars(r)
+	var steps []Step
+	var recipe Recipe
 
 	db.First(&recipe, params["id"])
 	db.Model(&recipe).Related(&steps)
@@ -29,7 +27,7 @@ func handleStepsByRecipe(w http.ResponseWriter, r *http.Request) {
 
 // POST new step
 func createStep(w http.ResponseWriter, r *http.Request) {
-
+	var steps []Step
 	var newStep Step
 
 	_ = json.NewDecoder(r.Body).Decode(&newStep)
@@ -42,23 +40,24 @@ func createStep(w http.ResponseWriter, r *http.Request) {
 }
 
 // // GET single step by stepID
-func getStep(w http.ResponseWriter, r *http.Request) {
-	params := mux.Vars(r)
+// func getStep(w http.ResponseWriter, r *http.Request) {
+// 	params := mux.Vars(r)
 
-	db.First(&steps, params["stepID"])
+// 	db.First(&steps, params["stepID"])
 
-	json.NewEncoder(w).Encode(&steps)
+// 	json.NewEncoder(w).Encode(&steps)
 
-	if err != nil {
-		return
-	}
+// 	if err != nil {
+// 		return
+// 	}
 
-}
+// }
 
 // DELETE single step by stepID
 func deleteStep(w http.ResponseWriter, r *http.Request) {
 	params := mux.Vars(r)
-
+	var step Step
+	var steps []Step
 	db.First(&step, params["stepID"])
 	db.Delete(&step)
 
