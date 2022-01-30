@@ -40,37 +40,72 @@ func main() {
 	db.AutoMigrate(&Step{})
 	db.AutoMigrate(&Ingredient{})
 
-	sampleRecipe := Recipe{
-		Title:       "Oatmeal",
-		Description: "This is a delicious breakfast",
-		Rating:      1,
-		PrepTime:    "10 mins",
-		CookTime:    "15 mins",
-		Steps: []Step{
-			{
-				Details:   "This is a step!",
-				Completed: true,
-				Ingredients: []Ingredient{
-					{Amount: 3, Ingredient: "sugar", UnitMeasurement: "cup", QuantOrder: 1},
-					{Amount: 10, Ingredient: "salt", UnitMeasurement: "teaspoon", QuantOrder: 2},
-				},
-			},
-			{
-				Details:   "This is another step",
-				Completed: false,
-				Ingredients: []Ingredient{
-					{Amount: 25, Ingredient: "sugar", UnitMeasurement: "pound", QuantOrder: 1},
-				},
-			},
-		},
-	}
+	// sampleRecipe := Recipe{
+	// 	Title:       "Oatmeal",
+	// 	Description: "This is a delicious breakfast",
+	// 	Rating:      1,
+	// 	PrepTime:    "10 mins",
+	// 	CookTime:    "15 mins",
+	// 	Steps: []Step{
+	// 		{
+	// 			Details:   "This is a step!",
+	// 			Completed: true,
+	// 			Ingredients: []Ingredient{
+	// 				{Amount: 3, Ingredient: "sugar", UnitMeasurement: "cup", QuantOrder: 1},
+	// 				{Amount: 10, Ingredient: "salt", UnitMeasurement: "teaspoon", QuantOrder: 2},
+	// 			},
+	// 		},
+	// 		{
+	// 			Details:   "This is another step",
+	// 			Completed: false,
+	// 			Ingredients: []Ingredient{
+	// 				{Amount: 25, Ingredient: "sugar", UnitMeasurement: "pound", QuantOrder: 1},
+	// 			},
+	// 		},
+	// 	},
+	// }
 
-	db.Create(&sampleRecipe)
-	db.Save(&sampleRecipe)
+	// sampleRecipeTwo := Recipe{
+	// 	Title:       "Tea",
+	// 	Description: "I love tea!",
+	// 	Rating:      5,
+	// 	PrepTime:    "2 mins",
+	// 	CookTime:    "4 mins",
+	// 	Steps: []Step{
+	// 		{
+	// 			Details:   "Heat up your water",
+	// 			Completed: false,
+	// 			Ingredients: []Ingredient{
+	// 				{Amount: 3, Ingredient: "sugar", UnitMeasurement: "cup", QuantOrder: 1},
+	// 				{Amount: 10, Ingredient: "salt", UnitMeasurement: "teaspoon", QuantOrder: 2},
+	// 			},
+	// 		},
+	// 		{
+	// 			Details:   "Add tea bag to the water",
+	// 			Completed: false,
+	// 			Ingredients: []Ingredient{
+	// 				{Amount: 25, Ingredient: "sugar", UnitMeasurement: "pound", QuantOrder: 1},
+	// 			},
+	// 		},
+	// 		{
+	// 			Details:   "Let steep for 3 mins, then serve!",
+	// 			Completed: false,
+	// 			Ingredients: []Ingredient{
+	// 				{Amount: 25, Ingredient: "sugar", UnitMeasurement: "pound", QuantOrder: 1},
+	// 			},
+	// 		},
+	// 	},
+	// }
+	// db.Create(&sampleRecipe)
+	// db.Save(&sampleRecipe)
+	// db.Create(&sampleRecipeTwo)
+	// db.Save(&sampleRecipeTwo)
 
-	router.HandleFunc("/recipes", getRecipes).Methods("GET")
-	router.HandleFunc("/recipes", createRecipe).Methods("POST")
-	router.HandleFunc("/recipes/{id}", getRecipeByID).Methods("GET")
+	// router.HandleFunc("/recipes", getRecipes).Methods("GET")
+	// router.HandleFunc("/recipes", createRecipe).Methods("POST")
+	router.HandleFunc("/recipes/{id}", getFullRecipe).Methods("GET")
+
+	// router.HandleFunc("/recipes/{id}", getRecipeByID).Methods("GET")
 	router.HandleFunc("/recipes/{id}/steps", handleStepsByRecipe).Methods("GET", "DELETE")
 	router.HandleFunc("/recipes/{id}/steps", createStep).Methods("POST")
 	router.HandleFunc("/recipes/{id}/steps/{stepID}", getStep).Methods("GET")

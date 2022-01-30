@@ -9,21 +9,45 @@ import (
 
 var ingredients []Ingredient
 var ingredient Ingredient
+var fullRecipe []Recipe
 
 // GET all ingredients from a step
 func handleIngredientsByStep(w http.ResponseWriter, r *http.Request) {
 	params := mux.Vars(r)
 
-	db.First(&step, params["id"])
+	db.First(&step, params["stepID"])
 	db.Model(&step).Related(&ingredients)
 	step.Ingredients = ingredients
 
-	if r.Method == "Get" {
-		json.NewEncoder(w).Encode(&ingredients)
+	if r.Method == "GET" {
+		json.NewEncoder(w).Encode(&step)
 	} else if r.Method == "DELETE" {
 		db.Delete(&ingredients)
 		json.NewEncoder(w).Encode("All ingredients deleted.")
 	}
+}
+
+func getFullRecipe(w http.ResponseWriter, r *http.Request) {
+	params := mux.Vars(r)
+	var recipe Recipe
+	var steps []Step
+
+	db.First(&recipe, params["id"])
+	db.Model(&recipe).Related(&steps)
+	recipe.Steps = steps
+
+	var stepsWithIngredients []Step
+
+	for _, recipeStep := range recipe.Steps {
+		db.Model(&recipeStep).Related(&ingredients)
+		recipeStep.Ingredients = ingredients
+		stepsWithIngredients = append(stepsWithIngredients, recipeStep)
+	}
+
+	recipe.Steps = stepsWithIngredients
+
+	json.NewEncoder(w).Encode(&recipe)
+
 }
 
 // POST new ingredient

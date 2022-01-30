@@ -1,51 +1,44 @@
 package main
 
-import (
-	"encoding/json"
-	"net/http"
+// var recipes []Recipe
 
-	"github.com/gorilla/mux"
-)
+// func getRecipes(w http.ResponseWriter, r *http.Request) {
 
-var recipes []Recipe
+// 	db.Find(&recipes)
+// 	json.NewEncoder(w).Encode(&recipes)
 
-func getRecipes(w http.ResponseWriter, r *http.Request) {
+// 	if err != nil {
+// 		return
+// 	}
 
-	db.Find(&recipes)
-	json.NewEncoder(w).Encode(&recipes)
+// }
 
-	if err != nil {
-		return
-	}
+// //createRecipe adds a recipe from JSON received in request body
+// func createRecipe(w http.ResponseWriter, r *http.Request) {
+// 	var newRecipe Recipe
+// 	_ = json.NewDecoder(r.Body).Decode(&newRecipe)
 
-}
+// 	recipes = append(recipes, newRecipe)
 
-//createRecipe adds a recipe from JSON received in request body
-func createRecipe(w http.ResponseWriter, r *http.Request) {
-	var newRecipe Recipe
-	_ = json.NewDecoder(r.Body).Decode(&newRecipe)
+// 	db.Create(&newRecipe)
 
-	recipes = append(recipes, newRecipe)
+// 	json.NewEncoder(w).Encode(&newRecipe)
 
-	db.Create(&newRecipe)
-
-	json.NewEncoder(w).Encode(&newRecipe)
-
-	if err != nil {
-		return
-	}
-}
+// 	if err != nil {
+// 		return
+// 	}
+// }
 
 // getRecipeByID responds with the information about a specific recipe
-func getRecipeByID(w http.ResponseWriter, r *http.Request) {
+// func getRecipeByID(w http.ResponseWriter, r *http.Request) {
 
-	params := mux.Vars(r)
+// 	params := mux.Vars(r)
 
-	db.First(&recipes, params["id"])
+// 	db.First(&recipes, params["id"])
 
-	json.NewEncoder(w).Encode(&recipes)
+// 	json.NewEncoder(w).Encode(&recipes)
 
-	if err != nil {
-		return
-	}
-}
+// 	if err != nil {
+// 		return
+// 	}
+// }
