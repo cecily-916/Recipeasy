@@ -30,9 +30,9 @@ type Ingredient struct {
 	StepID int
 	// Step            Step
 	Ingredient      string `json:"ingredient"`
-	UnitMeasurement string `json:"unit-measurement"` //one-to-one relationship
+	UnitMeasurement string `json:"unit"` //one-to-one relationship
 	Amount          int    `json:"amount"`
-	QuantOrder      int    `json:"order"` //Order in step that this ingredient is used
+	IngredientOrder int    `json:"order"` //Order in step that this ingredient is used
 	Completed       bool   `sql:"DEFAULT: false"`
 }
 
@@ -40,10 +40,11 @@ type Ingredient struct {
 type Step struct {
 	gorm.Model
 
-	Details     string       `json:"details"`
-	Ingredients []Ingredient `json:"ingredients"` // one-to-many relationship
+	Details      string       `json:"details"`
+	ExtraDetails string       `json:"extradetails"`
+	Ingredients  []Ingredient `json:"ingredients"` // one-to-many relationship
 	// Recipe      Recipe       // one-to-one relationship
 	RecipeID  int
-	StepOrder int  `json:"step"` //inputted by user
+	StepOrder int  `json:"order"` //inputted by user
 	Completed bool `json:"completed" sql:"DEFAULT:false"`
 }
