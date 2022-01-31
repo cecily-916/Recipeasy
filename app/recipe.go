@@ -57,7 +57,6 @@ func formatRecipeIngredients(allIngredients []Ingredient) []RecipeIngredient {
 	var n RecipeIngredient
 
 	for _, ingredient := range allIngredients {
-		// n.Name = ingredient.Ingredient
 
 		i, found := Find(recipeIngredients, ingredient.Ingredient)
 
@@ -69,9 +68,7 @@ func formatRecipeIngredients(allIngredients []Ingredient) []RecipeIngredient {
 		} else {
 			recipeIngredients[i].Quantity += ingredient.Amount
 		}
-
 	}
-
 	return recipeIngredients
 }
 
@@ -83,11 +80,3 @@ func Find(slice []RecipeIngredient, val string) (int, bool) {
 	}
 	return -1, false
 }
-
-// func addQuantity() {
-// 	for _, ingredient := range slice {
-// 		if ingredient.Name == val {
-
-// 		}
-// 	}
-// }

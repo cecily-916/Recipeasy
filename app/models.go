@@ -14,6 +14,7 @@ type Recipe struct {
 	Ingredients    []RecipeIngredient `json:"ingredients"`
 	NumIngredients int                `json:"numingredients"`
 	NumSteps       int                `json:"numsteps"`
+	MainImage      string             `json:"image"`
 }
 
 // Quantities know which ingredient they are a part of but ingredients dont need to know the reverse
