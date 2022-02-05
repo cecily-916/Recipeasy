@@ -5,7 +5,7 @@ import "gorm.io/gorm"
 // Each recipe has many steps
 type Recipe struct {
 	gorm.Model
-	Title          string             `json:"title" sql:"size:255;unique;index"`
+	Title          string             `json:"title" sql:"size:255"`
 	Description    string             `json:"description"`
 	Rating         int                `json:"rating"`
 	PrepTime       string             `json:"prepTime"`
@@ -15,6 +15,7 @@ type Recipe struct {
 	NumIngredients int                `json:"numingredients"`
 	NumSteps       int                `json:"numsteps"`
 	MainImage      string             `json:"image"`
+	Servings       int                `json:"servings"`
 }
 
 // Quantities know which ingredient they are a part of but ingredients dont need to know the reverse
@@ -29,11 +30,11 @@ type Ingredient struct {
 
 	StepID int
 	// Step            Step
-	Ingredient      string `json:"ingredient"`
-	UnitMeasurement string `json:"unit"` //one-to-one relationship
-	Amount          int    `json:"amount"`
-	IngredientOrder int    `json:"order"` //Order in step that this ingredient is used
-	Completed       bool   `sql:"DEFAULT: false"`
+	Ingredient      string  `json:"ingredient"`
+	UnitMeasurement string  `json:"unit"` //one-to-one relationship
+	Amount          float32 `json:"amount"`
+	IngredientOrder int     `json:"order"` //Order in step that this ingredient is used
+	Completed       bool    `sql:"DEFAULT: false"`
 }
 
 // Each step has many ingredients and belongs to only one recipe

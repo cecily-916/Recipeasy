@@ -40,75 +40,19 @@ func main() {
 	db.AutoMigrate(&Step{})
 	db.AutoMigrate(&Ingredient{})
 
-	sampleRecipe := Recipe{
-		Title:       "Oatmeal",
-		Description: "This is a delicious breakfast",
-		Rating:      1,
-		PrepTime:    "10 mins",
-		CookTime:    "15 mins",
-		MainImage:   "https://www.veggieinspired.com/wp-content/uploads/2015/05/healthy-oatmeal-berries-featured.jpg",
-		Steps: []Step{
-			{StepOrder: 1,
-				Details:   "Add oats to the bowl",
-				Completed: true,
-				Ingredients: []Ingredient{
-					{Amount: 3, Ingredient: "sugar", UnitMeasurement: "cup", IngredientOrder: 1},
-					{Amount: 10, Ingredient: "salt", UnitMeasurement: "teaspoon", IngredientOrder: 2},
-				},
-			},
-			{StepOrder: 2,
-				Details:   "This is another step",
-				Completed: false,
-				Ingredients: []Ingredient{
-					{Amount: 1, Ingredient: "sugar", UnitMeasurement: "cup", IngredientOrder: 1},
-				},
-			},
-		},
-	}
-
-	sampleRecipeTwo := Recipe{
-		Title:       "Tea",
-		Description: "I love tea!",
-		Rating:      5,
-		PrepTime:    "2 mins",
-		CookTime:    "4 mins",
-		MainImage:   "https://images.pexels.com/photos/1417945/pexels-photo-1417945.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
-		Steps: []Step{
-			{
-				StepOrder: 1,
-				Details:   "Heat up your water",
-				Completed: false,
-				Ingredients: []Ingredient{
-					{Amount: 3, Ingredient: "sugar", UnitMeasurement: "cup", IngredientOrder: 1},
-					{Amount: 10, Ingredient: "salt", UnitMeasurement: "teaspoon", IngredientOrder: 2},
-				},
-			},
-			{
-				StepOrder: 2,
-				Details:   "Add tea bag to the water",
-				Completed: false,
-				Ingredients: []Ingredient{
-					{Amount: 25, Ingredient: "sugar", UnitMeasurement: "pound", IngredientOrder: 1},
-				},
-			},
-			{
-				StepOrder: 3,
-				Details:   "Let steep for 3 mins, then serve!",
-				Completed: false,
-				Ingredients: []Ingredient{
-					{Amount: 25, Ingredient: "sugar", UnitMeasurement: "pound", IngredientOrder: 1},
-				},
-			},
-		},
-	}
-	db.Create(&sampleRecipe)
-	db.Save(&sampleRecipe)
-	db.Create(&sampleRecipeTwo)
-	db.Save(&sampleRecipeTwo)
+	// db.Create(&sampleRecipe)
+	// db.Save(&sampleRecipe)
+	// db.Create(&sampleRecipeTwo)
+	// db.Save(&sampleRecipeTwo)
+	// db.Create(&s3)
+	// db.Save(&s3)
 
 	router.HandleFunc("/recipes", getRecipes).Methods("GET")
-	// router.HandleFunc("/recipes", createRecipe).Methods("POST")
-	router.HandleFunc("/recipes/{id}", getFullRecipe).Methods("GET")
+	router.HandleFunc("/recipes", createRecipe).Methods("POST")
+	router.HandleFunc("/recipes/{id}", handleRecipe).Methods("GET", "DELETE")
+	router.HandleFunc("/archive", getArchive).Methods("GET")
+	router.HandleFunc("/archive/{id}", handleArchivedRecipe).Methods("PATCH", "DELETE")
+
 	router.HandleFunc("/recipes/{id}/steps", handleStepsByRecipe).Methods("GET", "DELETE")
 	router.HandleFunc("/recipes/{id}/steps", createStep).Methods("POST")
 	// router.HandleFunc("/recipes/{id}/steps/{stepID}", getStep).Methods("GET")
