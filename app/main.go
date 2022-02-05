@@ -47,6 +47,8 @@ func main() {
 	// db.Create(&s3)
 	// db.Save(&s3)
 
+	// router.HandleFunc("/userwebhook", handleUser).Methods("POST")
+
 	router.HandleFunc("/recipes", getRecipes).Methods("GET")
 	router.HandleFunc("/recipes", createRecipe).Methods("POST")
 	router.HandleFunc("/recipes/{id}", handleRecipe).Methods("GET", "DELETE")
@@ -65,7 +67,6 @@ func main() {
 	// router.HandleFunc("/recipes/{id}/steps/{stepID}/ingredients/{ingredientID}", editIngredient).Methods("PATCH")
 
 	handler := cors.Default().Handler(router)
-
 	log.Fatal(http.ListenAndServe("localhost:8080", handler))
 }
 

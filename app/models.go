@@ -16,6 +16,9 @@ type Recipe struct {
 	NumSteps       int                `json:"numsteps"`
 	MainImage      string             `json:"image"`
 	Servings       int                `json:"servings"`
+	// OriginalCreator string             `json:"originalcreator"`
+	// SharedWith      []int              `json:"sharedwith"`
+	// UserID          User               `json:"user"`
 }
 
 // Quantities know which ingredient they are a part of but ingredients dont need to know the reverse
