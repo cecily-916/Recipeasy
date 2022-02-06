@@ -5,20 +5,19 @@ import "gorm.io/gorm"
 // Each recipe has many steps
 type Recipe struct {
 	gorm.Model
-	Title          string             `json:"title" sql:"size:255"`
-	Description    string             `json:"description"`
-	Rating         int                `json:"rating"`
-	PrepTime       string             `json:"prepTime"`
-	CookTime       string             `json:"cookTime"`
-	Steps          []Step             `json:"steps"` //one-to-many relationship
-	Ingredients    []RecipeIngredient `json:"ingredients"`
-	NumIngredients int                `json:"numingredients"`
-	NumSteps       int                `json:"numsteps"`
-	MainImage      string             `json:"image"`
-	Servings       int                `json:"servings"`
-	// OriginalCreator string             `json:"originalcreator"`
-	// SharedWith      []int              `json:"sharedwith"`
-	// UserID          User               `json:"user"`
+	Title           string             `json:"title" sql:"size:255"`
+	Description     string             `json:"description"`
+	Rating          int                `json:"rating"`
+	PrepTime        string             `json:"prepTime"`
+	CookTime        string             `json:"cookTime"`
+	Steps           []Step             `json:"steps"` //one-to-many relationship
+	Ingredients     []RecipeIngredient `json:"ingredients"`
+	NumIngredients  int                `json:"numingredients"`
+	NumSteps        int                `json:"numsteps"`
+	MainImage       string             `json:"image"`
+	Servings        int                `json:"servings"`
+	OriginalCreator string             `json:"originalcreator"`
+	UserID          int                `json:"user"`
 }
 
 // Quantities know which ingredient they are a part of but ingredients dont need to know the reverse

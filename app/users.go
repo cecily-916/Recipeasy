@@ -1,32 +1,28 @@
 package main
 
-import "net/http"
+import (
+	"encoding/json"
+	"net/http"
 
-// // users slice to seed user data.
-// var users = []User{
-// 	{Name: "Cecily", Username: "cecily916", Password: "abc123"},
-// 	{Name: "Selena", Username: "selena08", Password: "efg456"},
-// }
+	"github.com/gorilla/mux"
+)
 
-// // getUsers responds with the list of all users as JSON
-// func getUsers(c *gin.Context) {
-// 	c.IndentedJSON(http.StatusOK, users)
-// }
+func getUser(w http.ResponseWriter, r *http.Request) {
+	params := mux.Vars(r)
 
-// // postUsers creates a new user from the JSON received in the request body
-// func postUsers(c *gin.Context) {
-// 	var newUser user
+	var user User
 
-// 	if err := c.BindJSON(&newUser); err != nil {
-// 		return
-// 	}
+	db.First(&user, params["userid"])
 
-// 	users = append(users, newUser)
-// 	c.IndentedJSON(http.StatusCreated, newUser)
-// }
+	json.NewEncoder(w).Encode(&user)
 
-// WEBHOOKS
-
-func handleUser(w http.ResponseWriter, r *http.Request) {
-
+	if err != nil {
+		return
+	}
 }
+
+// // WEBHOOKS
+
+// func handleUser(w http.ResponseWriter, r *http.Request) {
+
+// }

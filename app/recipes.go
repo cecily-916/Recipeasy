@@ -3,13 +3,19 @@ package main
 import (
 	"encoding/json"
 	"net/http"
+
+	"github.com/gorilla/mux"
 )
 
 // GET request responds with high level details of all recipes
 func getRecipes(w http.ResponseWriter, r *http.Request) {
 	var recipes []Recipe
+	var user User
+	params := mux.Vars(r)
 
-	db.Find(&recipes)
+	db.First(&user, params["userid"])
+
+	db.Model(&user).Related(&recipes)
 	json.NewEncoder(w).Encode(&recipes)
 
 	if err != nil {
