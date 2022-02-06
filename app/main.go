@@ -55,8 +55,8 @@ func main() {
 
 	router.HandleFunc("/{userid}", getUser).Methods("GET")
 	router.HandleFunc("/{userid}/recipes", getRecipes).Methods("GET")
-	router.HandleFunc("/{userid}/recipes", createRecipe).Methods("POST")
-	router.HandleFunc("/{userid}/recipes/{id}", handleRecipe).Methods("GET", "DELETE")
+	router.HandleFunc("/recipes", createRecipe).Methods("POST")
+	router.HandleFunc("/recipes/{id}", handleRecipe).Methods("GET", "DELETE")
 	// router.HandleFunc("/user/archive", getArchive).Methods("GET")
 	// router.HandleFunc("/user/archive/{id}", handleArchivedRecipe).Methods("PATCH", "DELETE")
 
