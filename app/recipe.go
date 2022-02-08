@@ -38,7 +38,7 @@ func handleRecipe(w http.ResponseWriter, r *http.Request) {
 	var steps []Step
 
 	// determine the recipe being called
-	db.First(&recipe, params["id"])
+	db.First(&recipe, params["recipeid"])
 
 	if r.Method == "GET" {
 		// assign related steps

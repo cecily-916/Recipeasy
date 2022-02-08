@@ -57,29 +57,36 @@ func main() {
 
 	// router.HandleFunc("/userwebhook", handleUser).Methods("POST")
 
-	router.HandleFunc("/{userid}", getUserData).Methods("GET")
-	router.HandleFunc("/{userid}/recipes", getRecipes).Methods("GET")
-	router.HandleFunc("/recipes", createRecipe).Methods("POST")
-	router.HandleFunc("/recipes/{id}", handleRecipe).Methods("GET", "DELETE")
+	// GET high level data about user
+	router.HandleFunc("/users/{userid}", getUserData).Methods("GET")
+	// GET recipes associated with user
+	router.HandleFunc("/users/{userid}/recipes", getRecipes).Methods("GET")
+	// CREATE a new recipe - needs to associate with current user
+	router.HandleFunc("recipes", createRecipe).Methods("POST")
+	// GET and DELETE endpoints to render individual recipe overview and to delete a recipe
+	router.HandleFunc("/recipes/{recipeid}", handleRecipe).Methods("GET", "DELETE")
+	// POST to add a new collection
 	router.HandleFunc("/collections", createCollection).Methods("POST")
-	router.HandleFunc("/{userid}/collections", getCollections).Methods("GET")
+	// GET list of collections associated with a user
+	router.HandleFunc("/users/{userid}/collections", getCollectionsPerUser).Methods("GET")
+	// GET and DELETE individual collections
+	router.HandleFunc("/users/{userid}/collections/{collectionid}", handleCollection).Methods("GET", "DELETE")
+	// Assign recipe to a collection
+	router.HandleFunc("/recipes/{recipeid}/collections/{collectionid}", handleRecipeCollection).Methods("PATCH", "DELETE")
+	router.HandleFunc("/recipes/{recipeid}/collections", getCollectionsPerRecipe).Methods("GET")
 
-	// router.HandleFunc("/{userid}/collections", handleCollections).Methods("POST", "GET")
-	// router.HandleFunc("/collections/{id}", handleCollection).Methods("DELETE", "PUT")
+	// Create individual step - this is used when editing a recipe and a one-off step needs to be added.
+	router.HandleFunc("/recipes/{recipeid}/steps", createStep).Methods("POST")
+	// // Edit and delete individual step
+	// router.HandleFunc("/recipes/{id}/steps/{stepID}", handleStep).Methods("DELETE", "PUT")
+	// // Edit and delete individual ingredient
+	// router.HandleFunc("/recipes/{id}/steps/{stepID}/ingredients/{id}", handleIngredient).Methods("DELETE", "PUT")
+	// Create individual ingredient - this is used when editing a recipe and a one-off step needs to be added.
+	router.HandleFunc("/recipes/{id}/steps/{stepID}/ingredients", createIngredient).Methods("POST")
 
-	//::::UNUSED:::::
+	//::::FOR ARCHIVE FUNCTIONALITY:::::
 	// router.HandleFunc("/user/archive", getArchive).Methods("GET")
 	// router.HandleFunc("/user/archive/{id}", handleArchivedRecipe).Methods("PATCH", "DELETE")
-	router.HandleFunc("/recipes/{id}/steps", handleStepsByRecipe).Methods("GET", "DELETE")
-	router.HandleFunc("/recipes/{id}/steps", createStep).Methods("POST")
-	// router.HandleFunc("/recipes/{id}/steps/{stepID}", getStep).Methods("GET")
-	// router.HandleFunc("/recipes/{id}/steps/{stepID}", editStep).Methods("PATCH")
-	router.HandleFunc("/recipes/{id}/steps/{stepID}", deleteStep).Methods("DELETE")
-	router.HandleFunc("/recipes/{id}/steps/{stepID}/ingredients", handleIngredientsByStep).Methods("GET", "DELETE")
-	router.HandleFunc("/recipes/{id}/steps/{stepID}/ingredients", createIngredient).Methods("POST")
-	router.HandleFunc("/recipes/{id}/steps/{stepID}/ingredients/{ingredientID}", getIngredient).Methods("GET")
-	router.HandleFunc("/recipes/{id}/steps/{stepID}/ingredients/{ingredientID}", deleteIngredient).Methods("DELETE")
-	// router.HandleFunc("/recipes/{id}/steps/{stepID}/ingredients/{ingredientID}", editIngredient).Methods("PATCH")
 
 	handler := cors.Default().Handler(router)
 	log.Fatal(http.ListenAndServe("localhost:8080", handler))

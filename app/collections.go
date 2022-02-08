@@ -21,12 +21,12 @@ func createCollection(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(&newCollection)
 }
 
-func getCollections(w http.ResponseWriter, r *http.Request) {
+func getCollectionsPerUser(w http.ResponseWriter, r *http.Request) {
 	var collections []Collection
 
 	params := mux.Vars(r)
 
-	db.Where("user_id = ?", params["userid"]).Preload("Recipes").Find(&collections)
+	db.Where("user_id = ? ", params["userid"]).Preload("Recipes").Find(&collections)
 
 	json.NewEncoder(w).Encode(&collections)
 
@@ -38,3 +38,51 @@ func getCollections(w http.ResponseWriter, r *http.Request) {
 // func addRecipeToCollection(w http.ResponseWriter, r *http.Request) {
 
 // }
+
+func handleCollection(w http.ResponseWriter, r *http.Request) {
+
+	var collection Collection
+	params := mux.Vars(r)
+
+	if r.Method == "DELETE" {
+		db.Delete(&collection, params["collectionid"])
+		json.NewEncoder(w).Encode("Deletion successful")
+
+	} else if r.Method == "GET" {
+		db.Where("user_id = ?", params["userid"]).Preload("Recipes").First(&collection, params["collectionid"])
+		json.NewEncoder(w).Encode(&collection)
+	}
+	if err != nil {
+		return
+	}
+}
+
+func handleRecipeCollection(w http.ResponseWriter, r *http.Request) {
+	var recipe Recipe
+	var collection Collection
+	params := mux.Vars(r)
+
+	db.First(&recipe, params["recipeid"])
+	db.First(&collection, params["collectionid"])
+
+	if r.Method == "PATCH" {
+		db.Model(&collection).Association("Recipes").Append([]Recipe{recipe})
+		json.NewEncoder(w).Encode(&collection)
+	}
+	if err != nil {
+		return
+	}
+}
+
+func getCollectionsPerRecipe(w http.ResponseWriter, r *http.Request) {
+	var recipe Recipe
+
+	params := mux.Vars(r)
+
+	db.Preload("Collections").First(&recipe, params["recipeid"])
+	json.NewEncoder(w).Encode(&recipe)
+
+	if err != nil {
+		return
+	}
+}
