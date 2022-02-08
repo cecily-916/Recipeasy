@@ -13,7 +13,8 @@ func getUserData(w http.ResponseWriter, r *http.Request) {
 
 	params := mux.Vars(r)
 
-	db.Preload("OwnRecipes.Steps.Ingredients").Preload("OwnRecipes.Collections").First(&user, params["userid"])
+	db.Find(&user, params["userid"])
+	// db.Preload("OwnRecipes.Steps.Ingredients").Preload("OwnRecipes.Collections").First(&user, params["userid"])
 
 	json.NewEncoder(w).Encode(&user)
 

@@ -61,7 +61,8 @@ func main() {
 	router.HandleFunc("/{userid}/recipes", getRecipes).Methods("GET")
 	router.HandleFunc("/recipes", createRecipe).Methods("POST")
 	router.HandleFunc("/recipes/{id}", handleRecipe).Methods("GET", "DELETE")
-	router.HandleFunc("/collections", handleCollections).Methods("POST", "DELETE")
+	router.HandleFunc("/collections", createCollection).Methods("POST")
+	router.HandleFunc("/{userid}/collections", getCollections).Methods("GET")
 
 	// router.HandleFunc("/{userid}/collections", handleCollections).Methods("POST", "GET")
 	// router.HandleFunc("/collections/{id}", handleCollection).Methods("DELETE", "PUT")
