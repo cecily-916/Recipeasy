@@ -10,11 +10,12 @@ import "gorm.io/gorm"
 type User struct {
 	gorm.Model
 
-	Name       string   `json:"name"`
-	Username   string   `json:"username" sql:"unique"`
-	Password   string   `json:"password"`
-	Email      string   `json:"email"`
-	OwnRecipes []Recipe `json:"ownrecipes"`
+	Name        string       `json:"name"`
+	Username    string       `json:"username" sql:"unique"`
+	Password    string       `json:"password"`
+	Email       string       `json:"email"`
+	Collections []Collection `json:"collections"`
+	OwnRecipes  []Recipe     `json:"ownrecipes"`
 	// Collections []Collection `json:"collections"`
 	// SharedRecipes []Recipe     `json:"sharedrecipes"`
 }

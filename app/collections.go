@@ -49,7 +49,7 @@ func handleCollection(w http.ResponseWriter, r *http.Request) {
 		json.NewEncoder(w).Encode("Deletion successful")
 
 	} else if r.Method == "GET" {
-		db.Where("user_id = ?", params["userid"]).Preload("Recipes").First(&collection, params["collectionid"])
+		db.Preload("Recipes").First(&collection, params["collectionid"])
 		json.NewEncoder(w).Encode(&collection)
 	}
 	if err != nil {
@@ -67,6 +67,9 @@ func handleRecipeCollection(w http.ResponseWriter, r *http.Request) {
 
 	if r.Method == "PATCH" {
 		db.Model(&collection).Association("Recipes").Append([]Recipe{recipe})
+		json.NewEncoder(w).Encode(&collection)
+	} else if r.Method == "DELETE" {
+		db.Model(&collection).Association("Recipes").Delete(recipe)
 		json.NewEncoder(w).Encode(&collection)
 	}
 	if err != nil {

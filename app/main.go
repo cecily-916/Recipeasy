@@ -58,19 +58,19 @@ func main() {
 	// router.HandleFunc("/userwebhook", handleUser).Methods("POST")
 
 	// GET high level data about user
-	router.HandleFunc("/users/{userid}", getUserData).Methods("GET")
+	router.HandleFunc("/{userid}", getUserData).Methods("GET")
 	// GET recipes associated with user
-	router.HandleFunc("/users/{userid}/recipes", getRecipes).Methods("GET")
+	router.HandleFunc("/{userid}/recipes", getRecipes).Methods("GET")
 	// CREATE a new recipe - needs to associate with current user
-	router.HandleFunc("recipes", createRecipe).Methods("POST")
+	router.HandleFunc("/recipes", createRecipe).Methods("POST")
 	// GET and DELETE endpoints to render individual recipe overview and to delete a recipe
 	router.HandleFunc("/recipes/{recipeid}", handleRecipe).Methods("GET", "DELETE")
 	// POST to add a new collection
 	router.HandleFunc("/collections", createCollection).Methods("POST")
 	// GET list of collections associated with a user
-	router.HandleFunc("/users/{userid}/collections", getCollectionsPerUser).Methods("GET")
+	router.HandleFunc("/{userid}/collections", getCollectionsPerUser).Methods("GET")
 	// GET and DELETE individual collections
-	router.HandleFunc("/users/{userid}/collections/{collectionid}", handleCollection).Methods("GET", "DELETE")
+	router.HandleFunc("/collections/{collectionid}", handleCollection).Methods("GET", "DELETE")
 	// Assign recipe to a collection
 	router.HandleFunc("/recipes/{recipeid}/collections/{collectionid}", handleRecipeCollection).Methods("PATCH", "DELETE")
 	router.HandleFunc("/recipes/{recipeid}/collections", getCollectionsPerRecipe).Methods("GET")
