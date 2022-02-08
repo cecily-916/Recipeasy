@@ -10,21 +10,19 @@ import "gorm.io/gorm"
 type User struct {
 	gorm.Model
 
-	Name             string   `json:"name"`
-	Username         string   `json:"username" sql:"unique"`
-	Password         string   `json:"password"`
-	Email            string   `json:"email"`
-	OwnRecipes       []Recipe `json:"ownrecipes"`
-	SharedRecipes    []Recipe `json:"sharedrecipes"`
-	FavoritedRecipes []Recipe `json:"favorited"`
-	Decks            []Deck   `json:"decks"`
+	Name       string   `json:"name"`
+	Username   string   `json:"username" sql:"unique"`
+	Password   string   `json:"password"`
+	Email      string   `json:"email"`
+	OwnRecipes []Recipe `json:"ownrecipes"`
+	// Collections []Collection `json:"collections"`
+	// SharedRecipes []Recipe     `json:"sharedrecipes"`
 }
 
-type Deck struct {
+type Collection struct {
 	gorm.Model
 
-	Title           string   `json:"title"`
-	Owner           string   `json:"owner"`
-	Recipes         []Recipe `json:"recipes"`
-	SharedWithUsers []User   `json:"sharedwith"`
+	Name    string    `json:"name"`
+	UserID  int       `json:"userid"`
+	Recipes []*Recipe `gorm:"many2many:recipe_collection"`
 }

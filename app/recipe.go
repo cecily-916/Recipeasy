@@ -14,6 +14,22 @@ type RecipeIngredient struct {
 	Unit     string
 }
 
+// GET request gets list of recipes for user
+func getRecipes(w http.ResponseWriter, r *http.Request) {
+	var recipes []Recipe
+	var user User
+	params := mux.Vars(r)
+
+	db.First(&user, params["userid"])
+
+	db.Model(&user).Related(&recipes)
+	json.NewEncoder(w).Encode(&recipes)
+
+	if err != nil {
+		return
+	}
+}
+
 // GET request responds with JSON of recipe details including all steps associated and all ingredients associated per step
 func handleRecipe(w http.ResponseWriter, r *http.Request) {
 

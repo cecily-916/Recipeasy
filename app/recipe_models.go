@@ -18,6 +18,7 @@ type Recipe struct {
 	Servings        int                `json:"servings"`
 	OriginalCreator string             `json:"originalcreator"`
 	UserID          int                `json:"user"`
+	Collections     []*Collection      `gorm:"many2many:recipe_collection"`
 }
 
 // Quantities know which ingredient they are a part of but ingredients dont need to know the reverse
@@ -36,7 +37,7 @@ type Ingredient struct {
 	UnitMeasurement string  `json:"unit"` //one-to-one relationship
 	Amount          float32 `json:"amount"`
 	IngredientOrder int     `json:"order"` //Order in step that this ingredient is used
-	Completed       bool    `sql:"DEFAULT: false"`
+	// Completed       bool    `sql:"DEFAULT: false"`
 }
 
 // Each step has many ingredients and belongs to only one recipe
@@ -48,6 +49,6 @@ type Step struct {
 	Ingredients  []Ingredient `json:"ingredients"` // one-to-many relationship
 	// Recipe      Recipe       // one-to-one relationship
 	RecipeID  int
-	StepOrder int  `json:"order"` //inputted by user
-	Completed bool `json:"completed" sql:"DEFAULT:false"`
+	StepOrder int `json:"order"` //inputted by user
+	// Completed bool `json:"completed" sql:"DEFAULT:false"`
 }

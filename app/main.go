@@ -40,10 +40,14 @@ func main() {
 	db.AutoMigrate(&Step{})
 	db.AutoMigrate(&Ingredient{})
 	db.AutoMigrate(&User{})
-	db.AutoMigrate(&Deck{})
+	db.AutoMigrate(&Collection{})
 
 	// db.Create(&sampleUser)
 	// db.Save(&sampleUser)
+
+	// db.Create(&sampleUser2)
+	// db.Save(&sampleUser2)
+
 	// db.Create(&sampleRecipe)
 	// db.Save(&sampleRecipe)
 	// db.Create(&sampleRecipeTwo)
@@ -53,13 +57,18 @@ func main() {
 
 	// router.HandleFunc("/userwebhook", handleUser).Methods("POST")
 
-	router.HandleFunc("/{userid}", getUser).Methods("GET")
+	router.HandleFunc("/{userid}", getUserData).Methods("GET")
 	router.HandleFunc("/{userid}/recipes", getRecipes).Methods("GET")
 	router.HandleFunc("/recipes", createRecipe).Methods("POST")
 	router.HandleFunc("/recipes/{id}", handleRecipe).Methods("GET", "DELETE")
+	router.HandleFunc("/collections", handleCollections).Methods("POST", "DELETE")
+
+	// router.HandleFunc("/{userid}/collections", handleCollections).Methods("POST", "GET")
+	// router.HandleFunc("/collections/{id}", handleCollection).Methods("DELETE", "PUT")
+
+	//::::UNUSED:::::
 	// router.HandleFunc("/user/archive", getArchive).Methods("GET")
 	// router.HandleFunc("/user/archive/{id}", handleArchivedRecipe).Methods("PATCH", "DELETE")
-
 	router.HandleFunc("/recipes/{id}/steps", handleStepsByRecipe).Methods("GET", "DELETE")
 	router.HandleFunc("/recipes/{id}/steps", createStep).Methods("POST")
 	// router.HandleFunc("/recipes/{id}/steps/{stepID}", getStep).Methods("GET")

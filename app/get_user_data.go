@@ -7,16 +7,15 @@ import (
 	"github.com/gorilla/mux"
 )
 
-// GET request responds with high level details of all recipes
-func getRecipes(w http.ResponseWriter, r *http.Request) {
-	var recipes []Recipe
+// GET request responds with high level details of all recipes per user
+func getUserData(w http.ResponseWriter, r *http.Request) {
 	var user User
+
 	params := mux.Vars(r)
 
-	db.First(&user, params["userid"])
+	db.Preload("OwnRecipes.Steps.Ingredients").Preload("OwnRecipes.Collections").First(&user, params["userid"])
 
-	db.Model(&user).Related(&recipes)
-	json.NewEncoder(w).Encode(&recipes)
+	json.NewEncoder(w).Encode(&user)
 
 	if err != nil {
 		return
