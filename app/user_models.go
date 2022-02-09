@@ -15,7 +15,7 @@ type User struct {
 	Password    string       `json:"password"`
 	Email       string       `json:"email"`
 	Collections []Collection `json:"collections"`
-	OwnRecipes  []Recipe     `json:"ownrecipes"`
+	OwnRecipes  []Recipe     `json:"ownrecipes" gorm:"constraint:OnDelete:CASCADE"`
 	// Collections []Collection `json:"collections"`
 	// SharedRecipes []Recipe     `json:"sharedrecipes"`
 }

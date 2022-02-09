@@ -85,8 +85,8 @@ func main() {
 	router.HandleFunc("/recipes/{id}/steps/{stepID}/ingredients", createIngredient).Methods("POST")
 
 	//::::FOR ARCHIVE FUNCTIONALITY:::::
-	// router.HandleFunc("/user/archive", getArchive).Methods("GET")
-	router.HandleFunc("/archive/{recipeid}", handleArchivedRecipe).Methods("PATCH", "DELETE")
+	router.HandleFunc("/{userid}/archive", getArchive).Methods("GET")
+	router.HandleFunc("/archive/{recipeid}", handleArchivedRecipe).Methods("PUT", "DELETE")
 
 	handler := cors.Default().Handler(router)
 	log.Fatal(http.ListenAndServe("localhost:8080", handler))

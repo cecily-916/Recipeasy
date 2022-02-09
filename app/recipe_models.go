@@ -10,7 +10,7 @@ type Recipe struct {
 	Rating          int                `json:"rating"`
 	PrepTime        string             `json:"prepTime"`
 	CookTime        string             `json:"cookTime"`
-	Steps           []Step             `json:"steps"` //one-to-many relationship
+	Steps           []Step             `json:"steps" gorm:"constraint:OnDelete:CASCADE"` //one-to-many relationship
 	Ingredients     []RecipeIngredient `json:"ingredients"`
 	NumIngredients  int                `json:"numingredients"`
 	NumSteps        int                `json:"numsteps"`

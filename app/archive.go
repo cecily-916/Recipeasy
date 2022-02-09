@@ -2,7 +2,6 @@ package main
 
 import (
 	"encoding/json"
-	"fmt"
 	"net/http"
 
 	"github.com/gorilla/mux"
@@ -10,10 +9,17 @@ import (
 
 func getArchive(w http.ResponseWriter, r *http.Request) {
 	var recipes []Recipe
+	var user User
+	params := mux.Vars(r)
 
-	db.Raw("SElECT * FROM recipes where deleted_at is not null").Scan(&recipes)
-	fmt.Println(recipes)
+	db.First(&user, params["userid"])
+
+	db.Model(&user).Unscoped().Related(&recipes)
 	json.NewEncoder(w).Encode(&recipes)
+
+	if err != nil {
+		return
+	}
 }
 
 func handleArchivedRecipe(w http.ResponseWriter, r *http.Request) {
@@ -22,13 +28,12 @@ func handleArchivedRecipe(w http.ResponseWriter, r *http.Request) {
 
 	if r.Method == "DELETE" {
 		db.Unscoped().Delete(&recipe, params["recipeid"])
-		json.NewEncoder(w).Encode(&recipe)
-
+		json.NewEncoder(w).Encode("deletion successful")
 	}
-	if r.Method == "PATCH" {
+	if r.Method == "PUT" {
 		db.Unscoped().First(&recipe, params["recipeid"])
-		db.Model(&recipe).Update("deleted_at", nil)
-
+		// db.Model(&recipe).Update("DeletedAt", nil)
+		db.Unscoped().Model(&recipe).UpdateColumn("deleted_at", nil)
 		json.NewEncoder(w).Encode(&recipe)
 	}
 	if err != nil {
