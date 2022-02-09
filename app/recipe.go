@@ -69,7 +69,8 @@ func handleRecipe(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 	} else if r.Method == "DELETE" {
-		db.Delete(&recipe)
+		db.Delete(&recipe, params["recipeid"])
+		json.NewEncoder(w).Encode("Deletion successful")
 	}
 }
 

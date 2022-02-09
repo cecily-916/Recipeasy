@@ -20,11 +20,18 @@ func handleArchivedRecipe(w http.ResponseWriter, r *http.Request) {
 	params := mux.Vars(r)
 	var recipe Recipe
 
-	db.First(&recipe, params["id"])
-
 	if r.Method == "DELETE" {
-		db.Delete(&recipe)
-	} else if r.Method == "PATCH" {
-		db.Model(&recipe).Update("deleted_at", "")
+		db.Unscoped().Delete(&recipe, params["recipeid"])
+		json.NewEncoder(w).Encode(&recipe)
+
+	}
+	if r.Method == "PATCH" {
+		db.Unscoped().First(&recipe, params["recipeid"])
+		db.Model(&recipe).Update("deleted_at", nil)
+
+		json.NewEncoder(w).Encode(&recipe)
+	}
+	if err != nil {
+		return
 	}
 }

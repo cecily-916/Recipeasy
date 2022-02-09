@@ -86,7 +86,7 @@ func main() {
 
 	//::::FOR ARCHIVE FUNCTIONALITY:::::
 	// router.HandleFunc("/user/archive", getArchive).Methods("GET")
-	// router.HandleFunc("/user/archive/{id}", handleArchivedRecipe).Methods("PATCH", "DELETE")
+	router.HandleFunc("/archive/{recipeid}", handleArchivedRecipe).Methods("PATCH", "DELETE")
 
 	handler := cors.Default().Handler(router)
 	log.Fatal(http.ListenAndServe("localhost:8080", handler))
