@@ -9,12 +9,11 @@ import (
 
 func getArchive(w http.ResponseWriter, r *http.Request) {
 	var recipes []Recipe
-	var user User
+	// var user User
 	params := mux.Vars(r)
 
-	db.First(&user, params["userid"])
-
-	db.Model(&user).Unscoped().Related(&recipes)
+	// db.First(&user, params["userid"]).Unscoped().Association("OwnRecipes").Where(map[string]interface{}{"deleted_at": nil}).Find(&recipes)
+	db.Unscoped().Model(&recipes).Not(map[string]interface{}{"deleted_at": nil}).Where("user_id =?", params["userid"]).Find(&recipes)
 	json.NewEncoder(w).Encode(&recipes)
 
 	if err != nil {
