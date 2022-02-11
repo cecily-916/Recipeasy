@@ -1,12 +1,15 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"net/http"
+	"os"
 
 	"github.com/gorilla/mux"
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/postgres"
+	"github.com/joho/godotenv"
 	"github.com/rs/cors"
 )
 
@@ -20,15 +23,23 @@ var err error
 // 	log.Fatal("Error loading .env file")
 // }
 // return os.Getenv(key)
-// }
 
 func main() {
-	router := mux.NewRouter()
-	// user_db := goDotEnvVariable("USER_DB")
-	// user_pw := goDotEnvVariable("USER_PW")
-	// backend_db := goDotEnvVariable("REACT_APP_BACKEND_DATABASE")
 
-	db, err = gorm.Open("postgres", "host=localhost port=5432 user=postgres dbname=recipeasy_test sslmode=disable password=postgres") // user_db, user_pw, backend_db)
+	err := godotenv.Load()
+	if err != nil {
+		log.Fatal("Error loading .env file")
+	}
+
+	username := os.Getenv("DB_USER")
+	password := os.Getenv("DB_PASS")
+	dbName := os.Getenv("DB_NAME")
+	dbHost := os.Getenv("DB_HOST")
+	dbPort := os.Getenv("DB_PORT")
+
+	router := mux.NewRouter()
+
+	db, err = gorm.Open("postgres", fmt.Sprintf("host=%s port=%s user=%s dbname=%s sslmode=disable password=%s", dbHost, dbPort, username, dbName, password))
 
 	if err != nil {
 		panic("failed to connect database")
@@ -42,8 +53,8 @@ func main() {
 	db.AutoMigrate(&User{})
 	db.AutoMigrate(&Collection{})
 
-	// db.Create(&sampleUser)
-	// db.Save(&sampleUser)
+	db.Create(&sampleUser)
+	db.Save(&sampleUser)
 
 	// db.Create(&sampleUser2)
 	// db.Save(&sampleUser2)

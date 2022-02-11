@@ -17,6 +17,7 @@ type Recipe struct {
 	MainImage       string             `json:"image"`
 	Servings        int                `json:"servings"`
 	OriginalCreator string             `json:"originalcreator"`
+	URL             string             `json:"url"`
 	UserID          int                `json:"user"`
 	Collections     []*Collection      `gorm:"many2many:recipe_collection"`
 }
@@ -46,6 +47,7 @@ type Step struct {
 
 	Details      string       `json:"details"`
 	ExtraDetails string       `json:"extradetails"`
+	Image        string       `json:"image"`
 	Ingredients  []Ingredient `json:"ingredients"` // one-to-many relationship
 	// Recipe      Recipe       // one-to-one relationship
 	RecipeID  int
