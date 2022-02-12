@@ -26,6 +26,8 @@ type Webhook struct {
 	Action    string `json:"action"`
 	Confirmed bool   `json:"isConfirmed"`
 	Record    struct {
+		UserId int `json:"userId"`
+
 		UserUuid string `json:"userUuid"`
 		Email    string `json:"email"`
 		Name     string `json:"name"`
@@ -56,10 +58,11 @@ func handleWebhook(w http.ResponseWriter, r *http.Request) {
 
 	if webhook.Action == "create" {
 		user := User{
-			UserUuid: webhook.Record.UserUuid,
-			Email:    webhook.Record.Email,
-			Name:     webhook.Record.Name,
-			Username: webhook.Record.Username,
+			UserfrontId: webhook.Record.UserId,
+			UserUuid:    webhook.Record.UserUuid,
+			Email:       webhook.Record.Email,
+			Name:        webhook.Record.Name,
+			Username:    webhook.Record.Username,
 		}
 
 		db.Create(&user)

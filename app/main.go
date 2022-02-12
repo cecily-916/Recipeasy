@@ -65,9 +65,9 @@ func main() {
 	router.HandleFunc("/userwebhook", handleWebhook).Methods("POST")
 
 	// GET high level data about user
-	router.HandleFunc("/{userid}", getUserData).Methods("GET")
+	router.HandleFunc("/{userfrontid}", getUserData).Methods("GET")
 	// GET recipes associated with user
-	router.HandleFunc("/{userid}/recipes", getRecipes).Methods("GET")
+	router.HandleFunc("/{userfrontid}/recipes", getRecipes).Methods("GET")
 	// CREATE a new recipe - needs to associate with current user
 	router.HandleFunc("/recipes", createRecipe).Methods("POST")
 	// GET and DELETE endpoints to render individual recipe overview and to delete a recipe
@@ -75,7 +75,7 @@ func main() {
 	// POST to add a new collection
 	router.HandleFunc("/collections", createCollection).Methods("POST")
 	// GET list of collections associated with a user
-	router.HandleFunc("/{userid}/collections", getCollectionsPerUser).Methods("GET")
+	router.HandleFunc("/{userfrontid}/collections", getCollectionsPerUser).Methods("GET")
 	// GET and DELETE individual collections
 	router.HandleFunc("/collections/{collectionid}", handleCollection).Methods("GET", "DELETE")
 	// Assign recipe to a collection
@@ -92,7 +92,7 @@ func main() {
 	router.HandleFunc("/recipes/{id}/steps/{stepID}/ingredients", createIngredient).Methods("POST")
 
 	//::::FOR ARCHIVE FUNCTIONALITY:::::
-	router.HandleFunc("/{userid}/archive", getArchive).Methods("GET")
+	router.HandleFunc("/{userfrontid}/archive", getArchive).Methods("GET")
 	router.HandleFunc("/archive/{recipeid}", handleArchivedRecipe).Methods("PUT", "DELETE")
 
 	port := os.Getenv("PORT")

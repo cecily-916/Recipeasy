@@ -20,7 +20,7 @@ func getRecipes(w http.ResponseWriter, r *http.Request) {
 	var user User
 	params := mux.Vars(r)
 
-	db.First(&user, params["userid"])
+	db.Where("userfront_id =?", params["userfrontid"]).Find(&user)
 
 	db.Model(&user).Related(&recipes)
 	json.NewEncoder(w).Encode(&recipes)
