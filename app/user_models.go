@@ -1,6 +1,6 @@
 package main
 
-import "gorm.io/gorm"
+import "github.com/jinzhu/gorm"
 
 // Each user has many access to specific recipes
 // Can create their own recipe decks made up of both shared and personal recipes

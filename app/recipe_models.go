@@ -1,6 +1,6 @@
 package main
 
-import "gorm.io/gorm"
+import "github.com/jinzhu/gorm"
 
 // Each recipe has many steps
 type Recipe struct {

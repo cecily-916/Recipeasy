@@ -7,7 +7,7 @@ require (
 	github.com/jinzhu/gorm v1.9.16
 	github.com/joho/godotenv v1.4.0
 	github.com/rs/cors v1.8.2
-	gorm.io/gorm v1.22.5
+	// gorm.io/gorm v1.22.5
 )
 
 require (
