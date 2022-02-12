@@ -3,7 +3,6 @@ package main
 var sampleUser = User{
 	Name:     "Cecily",
 	Username: "Me!",
-	Password: "thispassword",
 	Email:    "email@email.com",
 	OwnRecipes: []Recipe{
 		{Title: "Oatmeal",

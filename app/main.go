@@ -49,8 +49,8 @@ func main() {
 	db.AutoMigrate(&User{})
 	db.AutoMigrate(&Collection{})
 
-	db.Create(&sampleUser)
-	db.Save(&sampleUser)
+	// db.Create(&sampleUser)
+	// db.Save(&sampleUser)
 
 	// db.Create(&sampleUser2)
 	// db.Save(&sampleUser2)
@@ -62,7 +62,7 @@ func main() {
 	// db.Create(&s3)
 	// db.Save(&s3)
 
-	// router.HandleFunc("/userwebhook", handleUser).Methods("POST")
+	router.HandleFunc("/userwebhook", handleWebhook).Methods("POST")
 
 	// GET high level data about user
 	router.HandleFunc("/{userid}", getUserData).Methods("GET")

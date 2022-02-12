@@ -5,23 +5,21 @@ import (
 	"fmt"
 	"net/http"
 	"os"
-
-	"github.com/gorilla/mux"
 )
 
-func getUser(w http.ResponseWriter, r *http.Request) {
-	params := mux.Vars(r)
+// func getUser(w http.ResponseWriter, r *http.Request) {
+// 	params := mux.Vars(r)
 
-	var user User
+// 	var user User
 
-	db.First(&user, params["userid"])
+// 	db.First(&user, params["userid"])
 
-	json.NewEncoder(w).Encode(&user)
+// 	json.NewEncoder(w).Encode(&user)
 
-	if err != nil {
-		return
-	}
-}
+// 	if err != nil {
+// 		return
+// 	}
+// }
 
 // // WEBHOOKS
 // type webhook struct {
