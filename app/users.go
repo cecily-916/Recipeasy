@@ -22,54 +22,62 @@ import (
 // }
 
 // // WEBHOOKS
-// type webhook struct {
-// 	Action    string `json:"action"`
-// 	Confirmed bool   `json:"isConfirmed"`
-// 	Record    struct {
-// 		ID       string `json:"userId"`
-// 		UserUuid string `json:"userUuid"`
-// 		Email    string `json:"email"`
-// 		Name     string `json:"name"`
-// 	}
-// }
+type Webhook struct {
+	Action    string `json:"action"`
+	Confirmed bool   `json:"isConfirmed"`
+	Record    struct {
+		UserUuid string `json:"userUuid"`
+		Email    string `json:"email"`
+		Name     string `json:"name"`
+		Username string `json:"username"`
+	}
+}
 
 func handleWebhook(w http.ResponseWriter, r *http.Request) {
 	payloadSecret := r.Header.Get("Authorization")
 	webhookApiKey := os.Getenv("WEBHOOK_API_KEY")
+	fmt.Println(payloadSecret)
+	fmt.Println(webhookApiKey)
 
+	fmt.Println("accessed")
 	if payloadSecret != webhookApiKey {
 		fmt.Printf("unauthorized webhook")
 		return
 	}
+	var webhook Webhook
 
-	webhookData := make(map[string]interface{})
-
-	fmt.Println(webhookData)
-	err := json.NewDecoder(r.Body).Decode(&webhookData)
+	fmt.Println(webhook)
+	err := json.NewDecoder(r.Body).Decode(&webhook)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
-	fmt.Println("got webhook payload: ")
-	for k, v := range webhookData {
-		fmt.Printf("%s : %v\n", k, v)
-	}
+	fmt.Println("got webhook payload: ", webhook)
 
-	var user User
+	if webhook.Action == "create" {
+		user := User{
+			UserUuid: webhook.Record.UserUuid,
+			Email:    webhook.Record.Email,
+			Name:     webhook.Record.Name,
+			Username: webhook.Record.Username,
+		}
 
-	if webhookData["action"] == "create" {
 		db.Create(&user)
 		db.Save(&user)
 	}
 
-	if webhookData["action"] == "update" {
-		db.Model(&user).Where("userUuid = ?", webhookData["userUuid"]).First(&user)
+	// if webhookData["action"] == "update" {
+	// 	var user User
 
-		db.Model(&user).UpdateColumn("username & email & name", webhookData["username"], webhookData["email"], webhookData["name"])
-	}
+	// 	db.Model(&user).Where("userUuid = ?", webhookData["userUuid"]).First(&user)
 
-	if webhookData["action"] == "delete" {
-		db.Model(&user).Where("userUuid = ?", webhookData["userUuid"]).First(&user)
-		db.Delete(&user)
-	}
+	// 	db.Model(&user).UpdateColumn("username & email & name", webhookData["username"], webhookData["email"], webhookData["name"])
+	// }
+
+	// if webhookData["action"] == "delete" {
+	// 	var user User
+
+	// 	db.Model(&user).Where("userUuid = ?", webhookData["userUuid"]).First(&user)
+	// 	db.Delete(&user)
+	// }
 }
