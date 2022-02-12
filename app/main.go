@@ -100,7 +100,13 @@ func main() {
 		port = "8080"
 	}
 
-	handler := cors.Default().Handler(router)
+	c := cors.New(cors.Options{
+		AllowedOrigins:   ([]string{"https://reci-peasy.herokuapp.com"}),
+		AllowedMethods:   ([]string{"GET", "POST", "PUT", "DELETE", "PATCH"}),
+		AllowCredentials: true,
+	})
+
+	handler := c.Handler(router)
 	log.Fatal(http.ListenAndServe(":"+port, handler))
 }
 
