@@ -95,8 +95,13 @@ func main() {
 	router.HandleFunc("/{userid}/archive", getArchive).Methods("GET")
 	router.HandleFunc("/archive/{recipeid}", handleArchivedRecipe).Methods("PUT", "DELETE")
 
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "8080"
+	}
+
 	handler := cors.Default().Handler(router)
-	log.Fatal(http.ListenAndServe("localhost:8080", handler))
+	log.Fatal(http.ListenAndServe(":"+port, handler))
 }
 
 // func GetDriver(w http.ResponseWriter, r *http.Request) {
