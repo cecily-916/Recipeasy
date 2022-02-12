@@ -1,1 +1,1 @@
-web: recipeasy-backend/app
+web: app
