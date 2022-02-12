@@ -1,1 +1,1 @@
-web: recipeasy-backend
+web: recipeasy-backend/app/main.go
