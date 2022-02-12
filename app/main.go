@@ -31,15 +31,11 @@ func main() {
 		log.Fatal("Error loading .env file")
 	}
 
-	username := os.Getenv("DB_USER")
-	password := os.Getenv("DB_PASS")
-	dbName := os.Getenv("DB_NAME")
-	dbHost := os.Getenv("DB_HOST")
-	dbPort := os.Getenv("DB_PORT")
-
+	dbUri := os.Getenv("DB_URI")
+	fmt.Println(dbUri)
 	router := mux.NewRouter()
 
-	db, err = gorm.Open("postgres", fmt.Sprintf("host=%s port=%s user=%s dbname=%s sslmode=disable password=%s", dbHost, dbPort, username, dbName, password))
+	db, err = gorm.Open("postgres", dbUri)
 
 	if err != nil {
 		panic("failed to connect database")
