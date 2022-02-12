@@ -10,9 +10,10 @@ import "github.com/jinzhu/gorm"
 type User struct {
 	gorm.Model
 
-	Name        string       `json:"name"`
-	Username    string       `json:"username" sql:"unique"`
-	Password    string       `json:"password"`
+	Name     string `json:"name"`
+	UserUuid string `json:"userUuid`
+	Username string `json:"username" sql:"unique"`
+	// Password    string       `json:"password"`
 	Email       string       `json:"email"`
 	Collections []Collection `json:"collections"`
 	OwnRecipes  []Recipe     `json:"ownrecipes" gorm:"constraint:OnDelete:CASCADE"`
