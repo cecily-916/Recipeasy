@@ -23,13 +23,13 @@ func createCollection(w http.ResponseWriter, r *http.Request) {
 
 func getCollectionsPerUser(w http.ResponseWriter, r *http.Request) {
 	var collections []Collection
-	var user User
+	// var user User
 	params := mux.Vars(r)
 
-	db.Where("userfront_id =?", params["userfrontid"]).Find(&user)
+	// db.Where("userfront_id =?", params["userfrontid"]).First(&user)
+	db.Where("user_id = ? ", params["userfrontid"]).Preload("Recipes").Find(&collections)
 
-	db.Where("user_id = ? ", user.ID).Preload("Recipes").Find(&collections)
-
+	// json.NewEncoder(w).Encode(&user)
 	json.NewEncoder(w).Encode(&collections)
 
 	if err != nil {
