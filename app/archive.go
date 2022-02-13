@@ -13,7 +13,7 @@ func getArchive(w http.ResponseWriter, r *http.Request) {
 	params := mux.Vars(r)
 
 	// db.First(&user, params["userid"]).Unscoped().Association("OwnRecipes").Where(map[string]interface{}{"deleted_at": nil}).Find(&recipes)
-	db.Unscoped().Model(&recipes).Not(map[string]interface{}{"deleted_at": nil}).Where("user_id =?", params["userid"]).Find(&recipes)
+	db.Unscoped().Model(&recipes).Not(map[string]interface{}{"deleted_at": nil}).Where("user_id =?", params["userfrontid"]).Find(&recipes)
 	json.NewEncoder(w).Encode(&recipes)
 
 	if err != nil {
