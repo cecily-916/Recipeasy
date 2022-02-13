@@ -17,12 +17,12 @@ type RecipeIngredient struct {
 // GET request gets list of recipes for user
 func getRecipes(w http.ResponseWriter, r *http.Request) {
 	var recipes []Recipe
-	var user User
+	// var user User
 	params := mux.Vars(r)
 
-	db.Where("userfront_id =?", params["userfrontid"]).Find(&user)
+	db.Where("user_id =?", params["userfrontid"]).Find(&recipes)
 
-	db.Model(&user).Related(&recipes)
+	// db.Model(&user).Related(&recipes)
 	json.NewEncoder(w).Encode(&recipes)
 
 	if err != nil {
