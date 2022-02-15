@@ -2,7 +2,6 @@ package main
 
 import (
 	"encoding/json"
-	"fmt"
 	"net/http"
 
 	"github.com/gorilla/mux"
@@ -57,11 +56,8 @@ func handleRecipe(w http.ResponseWriter, r *http.Request) {
 			allIngredients = append(allIngredients, ingredients...)
 			stepsWithIngredients = append(stepsWithIngredients, recipeStep)
 		}
-		fmt.Println(allIngredients)
 		recipe.Steps = stepsWithIngredients
 		recipe.Ingredients = formatRecipeIngredients(allIngredients)
-		recipe.NumIngredients = len(recipe.Ingredients)
-		recipe.NumSteps = len(recipe.Steps)
 
 		json.NewEncoder(w).Encode(&recipe)
 
@@ -83,6 +79,10 @@ func createRecipe(w http.ResponseWriter, r *http.Request) {
 	db.Create(&newRecipe)
 	db.Save(&newRecipe)
 	json.NewEncoder(w).Encode(&newRecipe)
+
+	if err != nil {
+		return
+	}
 }
 
 func formatRecipeIngredients(allIngredients []Ingredient) []RecipeIngredient {

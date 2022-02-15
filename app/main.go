@@ -101,7 +101,7 @@ func main() {
 	}
 
 	c := cors.New(cors.Options{
-		AllowedOrigins:   ([]string{"https://reci-peasy.herokuapp.com"}),
+		AllowedOrigins:   ([]string{"https://reci-peasy.herokuapp.com", "http://localhost:3000"}),
 		AllowedMethods:   ([]string{"GET", "POST", "PUT", "DELETE", "PATCH"}),
 		AllowCredentials: true,
 	})
