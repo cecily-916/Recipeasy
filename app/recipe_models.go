@@ -29,9 +29,10 @@ type Ingredient struct {
 
 	StepID int
 	// Step            Step
-	Ingredient      string  `json:"ingredient"`
-	UnitMeasurement string  `json:"unit"` //one-to-one relationship
-	Amount          float32 `json:"amount"`
+	Ingredient      string `json:"ingredient"`
+	UnitMeasurement string `json:"unit"` //one-to-one relationship
+	AmountWhole     string `json:"amountwhole`
+	AmountFrac      string `json:"amountfrac"`
 	// Completed       bool    `sql:"DEFAULT: false"`
 }
 

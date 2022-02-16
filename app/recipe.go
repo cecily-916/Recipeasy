@@ -57,7 +57,7 @@ func handleRecipe(w http.ResponseWriter, r *http.Request) {
 			stepsWithIngredients = append(stepsWithIngredients, recipeStep)
 		}
 		recipe.Steps = stepsWithIngredients
-		recipe.Ingredients = formatRecipeIngredients(allIngredients)
+		// recipe.Ingredients = formatRecipeIngredients(allIngredients)
 
 		json.NewEncoder(w).Encode(&recipe)
 
@@ -85,31 +85,31 @@ func createRecipe(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func formatRecipeIngredients(allIngredients []Ingredient) []RecipeIngredient {
-	var recipeIngredients []RecipeIngredient
-	var n RecipeIngredient
+// func formatRecipeIngredients(allIngredients []Ingredient) []RecipeIngredient {
+// 	var recipeIngredients []RecipeIngredient
+// 	var n RecipeIngredient
 
-	for _, ingredient := range allIngredients {
+// 	for _, ingredient := range allIngredients {
 
-		i, found := Find(recipeIngredients, ingredient.Ingredient)
+// 		i, found := Find(recipeIngredients, ingredient.Ingredient)
 
-		if !found {
-			n.Name = ingredient.Ingredient
-			n.Quantity = ingredient.Amount
-			n.Unit = ingredient.UnitMeasurement
-			recipeIngredients = append(recipeIngredients, n)
-		} else {
-			recipeIngredients[i].Quantity += ingredient.Amount
-		}
-	}
-	return recipeIngredients
-}
+// 		if !found {
+// 			n.Name = ingredient.Ingredient
+// 			n.Quantity = ingredient.Amount
+// 			n.Unit = ingredient.UnitMeasurement
+// 			recipeIngredients = append(recipeIngredients, n)
+// 		} else {
+// 			recipeIngredients[i].Quantity += ingredient.Amount
+// 		}
+// 	}
+// 	return recipeIngredients
+// }
 
-func Find(slice []RecipeIngredient, val string) (int, bool) {
-	for i, ingredient := range slice {
-		if ingredient.Name == val {
-			return i, true
-		}
-	}
-	return -1, false
-}
+// func Find(slice []RecipeIngredient, val string) (int, bool) {
+// 	for i, ingredient := range slice {
+// 		if ingredient.Name == val {
+// 			return i, true
+// 		}
+// 	}
+// 	return -1, false
+// }
