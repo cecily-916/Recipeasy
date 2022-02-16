@@ -29,6 +29,9 @@ func handleArchivedRecipe(w http.ResponseWriter, r *http.Request) {
 		db.Unscoped().Delete(&recipe, params["recipeid"])
 		json.NewEncoder(w).Encode("deletion successful")
 	}
+	if err != nil {
+		return
+	}
 	if r.Method == "PUT" {
 		db.Unscoped().First(&recipe, params["recipeid"])
 		// db.Model(&recipe).Update("DeletedAt", nil)
