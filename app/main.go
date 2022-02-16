@@ -16,14 +16,6 @@ import (
 var db *gorm.DB
 var err error
 
-// func goDotEnvVariable(key string) string {
-// 	err := godotenv.Load(".env")
-
-// if err != nil {
-// 	log.Fatal("Error loading .env file")
-// }
-// return os.Getenv(key)
-
 func main() {
 
 	err := godotenv.Load()
@@ -51,16 +43,6 @@ func main() {
 
 	// db.Create(&sampleUser)
 	// db.Save(&sampleUser)
-
-	// db.Create(&sampleUser2)
-	// db.Save(&sampleUser2)
-
-	// db.Create(&sampleRecipe)
-	// db.Save(&sampleRecipe)
-	// db.Create(&sampleRecipeTwo)
-	// db.Save(&sampleRecipeTwo)
-	// db.Create(&s3)
-	// db.Save(&s3)
 
 	router.HandleFunc("/userwebhook", handleWebhook).Methods("POST")
 
@@ -109,24 +91,3 @@ func main() {
 	handler := c.Handler(router)
 	log.Fatal(http.ListenAndServe(":"+port, handler))
 }
-
-// func GetDriver(w http.ResponseWriter, r *http.Request) {
-// 	params := mux.Vars(r)
-// 	var driver Driver
-// 	var cars []Car
-// 	db.First(&driver, params["id"])
-// 	db.Model(&driver).Related(&cars)
-// 	driver.Cars = cars
-// 	json.NewEncoder(w).Encode(&driver)
-// }
-
-// func DeleteCar(w http.ResponseWriter, r *http.Request) {
-// 	params := mux.Vars(r)
-// 	var car Car
-// 	db.First(&car, params["id"])
-// 	db.Delete(&car)
-
-// 	var cars []Car
-// 	db.Find(&cars)
-// 	json.NewEncoder(w).Encode(&cars)
-// }

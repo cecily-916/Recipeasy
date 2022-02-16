@@ -39,20 +39,6 @@ func createStep(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(&newStep)
 }
 
-// // GET single step by stepID
-// func getStep(w http.ResponseWriter, r *http.Request) {
-// 	params := mux.Vars(r)
-
-// 	db.First(&steps, params["stepID"])
-
-// 	json.NewEncoder(w).Encode(&steps)
-
-// 	if err != nil {
-// 		return
-// 	}
-
-// }
-
 // DELETE single step by stepID
 func deleteStep(w http.ResponseWriter, r *http.Request) {
 	params := mux.Vars(r)
@@ -65,8 +51,3 @@ func deleteStep(w http.ResponseWriter, r *http.Request) {
 	db.Find(&steps)
 	json.NewEncoder(w).Encode(&steps)
 }
-
-// // PATCH edits the step
-// func editStep(w http.ResponseWriter, r *http.Request) {
-
-// }
