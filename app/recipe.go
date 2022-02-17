@@ -46,14 +46,14 @@ func handleRecipe(w http.ResponseWriter, r *http.Request) {
 		// for each step in the recipe, find and assign the ingredient details to the step
 		// add the ingredient to the recipe's ingredient list
 		var ingredients []Ingredient
-		var allIngredients []Ingredient
+		// var allIngredients []Ingredient
 		var stepsWithIngredients []Step
 
 		for _, recipeStep := range steps {
 			db.Model(&recipeStep).Related(&ingredients)
 			recipeStep.Ingredients = ingredients
 
-			allIngredients = append(allIngredients, ingredients...)
+			// allIngredients = append(allIngredients, ingredients...)
 			stepsWithIngredients = append(stepsWithIngredients, recipeStep)
 		}
 		recipe.Steps = stepsWithIngredients

@@ -5,22 +5,22 @@ import "github.com/jinzhu/gorm"
 // Each recipe has many steps
 type Recipe struct {
 	gorm.Model
-	Title          string             `json:"title" sql:"size:255"`
-	Description    string             `json:"description"`
-	Rating         int                `json:"rating"`
-	PrepTime       string             `json:"prepTime"`
-	CookTime       string             `json:"cookTime"`
-	Steps          []Step             `json:"steps" gorm:"constraint:OnDelete:CASCADE"` //one-to-many relationship
-	Ingredients    []RecipeIngredient `json:"ingredients"`
-	NumIngredients int                `json:"numingredients"`
-	MainImage      string             `json:"image"`
-	ImageID        string             `json:"imageid"`
-	ImageDelete    string             `json:"imagedelete"`
-	Servings       string             `json:"servings"`
-	Author         string             `json:"author"`
-	Source         string             `json:"source"`
-	UserID         int                `json:"user"`
-	Collections    []*Collection      `gorm:"many2many:recipe_collection"`
+	Title          string        `json:"title" sql:"size:255"`
+	Description    string        `json:"description"`
+	Rating         int           `json:"rating"`
+	PrepTime       string        `json:"prepTime"`
+	CookTime       string        `json:"cookTime"`
+	Steps          []Step        `json:"steps" gorm:"constraint:OnDelete:CASCADE"` //one-to-many relationship
+	Ingredients    string        `json:"ingredients"`
+	NumIngredients int           `json:"numingredients"`
+	MainImage      string        `json:"image"`
+	ImageID        string        `json:"imageid"`
+	ImageDelete    string        `json:"imagedelete"`
+	Servings       string        `json:"servings"`
+	Author         string        `json:"author"`
+	Source         string        `json:"source"`
+	UserID         int           `json:"user"`
+	Collections    []*Collection `gorm:"many2many:recipe_collection"`
 }
 
 // // Each quantity has one ingredient and one unit of measurement
@@ -34,6 +34,7 @@ type Ingredient struct {
 	AmountWhole     string  `json:"amountwhole"`
 	AmountFrac      string  `json:"amountfrac"`
 	Amount          float32 `json:"amount"`
+	RecipeID        int     `json:"recipe"`
 	// Completed       bool    `sql:"DEFAULT: false"`
 }
 

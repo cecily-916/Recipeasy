@@ -63,15 +63,16 @@ func main() {
 	// Assign recipe to a collection
 	router.HandleFunc("/recipes/{recipeid}/collections/{collectionid}", handleRecipeCollection).Methods("PATCH", "DELETE")
 	router.HandleFunc("/recipes/{recipeid}/collections", getCollectionsPerRecipe).Methods("GET")
+	// router.HandleFunc("/recipes/{recipeid}/ingredients", getIngredientsPerRecipe).Methods("GET")
 
 	// Create individual step - this is used when editing a recipe and a one-off step needs to be added.
-	router.HandleFunc("/recipes/{recipeid}/steps", createStep).Methods("POST")
+	// router.HandleFunc("/recipes/{recipeid}/steps", createStep).Methods("POST")
 	// // Edit and delete individual step
 	// router.HandleFunc("/recipes/{id}/steps/{stepID}", handleStep).Methods("DELETE", "PUT")
 	// // Edit and delete individual ingredient
 	// router.HandleFunc("/recipes/{id}/steps/{stepID}/ingredients/{id}", handleIngredient).Methods("DELETE", "PUT")
 	// Create individual ingredient - this is used when editing a recipe and a one-off step needs to be added.
-	router.HandleFunc("/recipes/{id}/steps/{stepID}/ingredients", createIngredient).Methods("POST")
+	// router.HandleFunc("/recipes/{id}/steps/{stepID}/ingredients", createIngredient).Methods("POST")
 
 	//::::FOR ARCHIVE FUNCTIONALITY:::::
 	router.HandleFunc("/{userfrontid}/archive", getArchive).Methods("GET")
