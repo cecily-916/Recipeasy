@@ -78,10 +78,11 @@ func createRecipe(w http.ResponseWriter, r *http.Request) {
 
 	db.Create(&newRecipe)
 	db.Save(&newRecipe)
-	json.NewEncoder(w).Encode(&newRecipe)
 
 	if err != nil {
-		return
+		json.NewEncoder(w).Encode(err)
+	} else {
+		json.NewEncoder(w).Encode(&newRecipe)
 	}
 }
 
